@@ -1,0 +1,61 @@
+
+bean1 = * com.jenkov.container.TestProduct();
+
+bean2 = * com.jenkov.container.script.SomeFactoryProduct("test");
+
+bean3 = bean1.setValue1("bean3Value");
+
+bean4 = bean1.setIntValue("beanValue".length());
+
+bean5 = bean1.setValue1(com.jenkov.container.TestProduct.FIELD_VALUE);
+
+
+
+/* bean5 = * com.jenkov.NonExistingClass(); */
+
+
+
+
+
+/*
+bean10 = * com.jenkov.NonExistingClass();
+    config{
+            local1 = bean10.get();
+            local2 = bean10.getOther();
+            $bean.set($0);
+    }
+    start{
+        thread = $bean10.getThread();
+    }
+    stop{
+        $bean10.stop();
+        $thread.interrupt();
+    }
+    dispose {
+        $bean10.getConnection().close();
+        $local1.close();
+    }
+
+
+bean20 = 1 com.jenkov.NonExisitingClass();
+bean21 = T com.jenkov.NonExisitingClass();
+bean22 = F com.jenkov.NonExisitingClass();
+bean22 = S com.jenkov.NonExisitingClass();
+bean22 = R com.jenkov.NonExisitingClass();
+
+bean20 = 1 com.jenkov.NonExisitingClass();
+bean21 = 1T com.jenkov.NonExisitingClass();
+bean22 = 1F com.jenkov.NonExisitingClass();
+bean22 = 1S com.jenkov.NonExisitingClass();
+bean22 = 1R com.jenkov.NonExisitingClass();
+
+bean22 = 5 com.jenkov.NonExisitingClass();
+bean22 = 5,10 com.jenkov.NonExisitingClass();
+
+
+
+*/
+
+
+
+    
