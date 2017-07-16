@@ -1,9 +1,9 @@
 package com.jenkov.container.script;
 
-import junit.framework.TestCase;
-import com.jenkov.container.IContainer;
 import com.jenkov.container.Container;
+import com.jenkov.container.IContainer;
 import com.jenkov.container.TestProduct;
+import junit.framework.TestCase;
 
 /**
  * @author Jakob Jenkov - Copyright 2004-2006 Jenkov Development
@@ -18,8 +18,8 @@ public class GlobalThreadSingletonTest extends TestCase {
         String test1 = (String) container.instance("test1");
         assertEquals("test1", test1);
 
-        TestThread thread1 = new TestThread(container){
-            public void run(){
+        TestThread thread1 = new TestThread(container) {
+            public void run() {
                 this.string1 = (String) container.instance("test1");
                 this.string2 = (String) container.instance("test1");
             }
@@ -28,8 +28,8 @@ public class GlobalThreadSingletonTest extends TestCase {
         thread1.join();
         assertSame(thread1.getString1(), thread1.getString2());
 
-        TestThread thread2 = new TestThread(container){
-            public void run(){
+        TestThread thread2 = new TestThread(container) {
+            public void run() {
                 this.string1 = (String) container.instance("test1");
                 this.string2 = (String) container.instance("test1");
             }
@@ -57,11 +57,11 @@ public class GlobalThreadSingletonTest extends TestCase {
 
         builder.addFactory(
                 "bean2 = 1T com.jenkov.container.TestProduct();" +
-                "    config{ $bean2.setValue1(\"value1\"); }");
+                        "    config{ $bean2.setValue1(\"value1\"); }");
 
 
-        TestThread thread = new TestThread(container){
-            public void run(){
+        TestThread thread = new TestThread(container) {
+            public void run() {
                 this.instance1 = container.instance("bean2");
                 this.instance2 = container.instance("bean2");
             }
@@ -73,20 +73,20 @@ public class GlobalThreadSingletonTest extends TestCase {
         assertEquals("value1", product2.getValue1());
         assertNull(product2.getValue2());
 
-        assertEquals("value1", ((TestProduct)thread.getInstance1()).getValue1());
-        assertNull(((TestProduct)thread.getInstance1()).getValue2());
+        assertEquals("value1", ((TestProduct) thread.getInstance1()).getValue1());
+        assertNull(((TestProduct) thread.getInstance1()).getValue2());
 
         assertNotSame(product2, thread.getInstance1());
         assertSame(thread.getInstance2(), thread.getInstance1());
 
         builder.addFactory(
                 "bean3 = 1T com.jenkov.container.TestProduct();" +
-                "    config { $bean3.setValue1(\"value1\"); } " +
-                "    myPhase{ $bean3.setValue2(\"value2\"); } " +
-                "    dispose{ $bean3.setValue2(\"disposed\"); }");
+                        "    config { $bean3.setValue1(\"value1\"); } " +
+                        "    myPhase{ $bean3.setValue2(\"value2\"); } " +
+                        "    dispose{ $bean3.setValue2(\"disposed\"); }");
 
-        thread = new TestThread(container){
-            public void run(){
+        thread = new TestThread(container) {
+            public void run() {
                 this.instance1 = container.instance("bean3");
                 this.instance2 = container.instance("bean3");
             }

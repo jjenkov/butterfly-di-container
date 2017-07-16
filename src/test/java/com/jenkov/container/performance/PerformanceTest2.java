@@ -5,7 +5,10 @@ import com.jenkov.container.IContainer;
 import com.jenkov.container.TestProduct;
 import com.jenkov.container.script.ScriptFactoryBuilder;
 
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 /**
 
@@ -25,7 +28,7 @@ public class PerformanceTest2 {
 
         IContainer container = new Container();
         ScriptFactoryBuilder builder = new ScriptFactoryBuilder(container);
-        BufferedInputStream input = new BufferedInputStream(new FileInputStream(fileName), 1024 * 1024 );
+        BufferedInputStream input = new BufferedInputStream(new FileInputStream(fileName), 1024 * 1024);
 
         builder.addFactories(input);
         input.close();
@@ -34,8 +37,8 @@ public class PerformanceTest2 {
 
         long parseTime = System.currentTimeMillis();
 
-        for(int i=0; i<iterations; i++){
-            container.instance("i" + i );
+        for (int i = 0; i < iterations; i++) {
+            container.instance("i" + i);
         }
 
         long instantiationTime = System.currentTimeMillis();
@@ -46,7 +49,7 @@ public class PerformanceTest2 {
 
         startTime = System.currentTimeMillis();
         TestProduct product = new TestProduct();
-        for(int i=0; i<iterations; i++){
+        for (int i = 0; i < iterations; i++) {
             product = new TestProduct();
         }
         instantiationTime = System.currentTimeMillis();
@@ -62,11 +65,11 @@ public class PerformanceTest2 {
 
         output.write("factoryNameWhichIsQuiteLong = * com.jenkov.container.TestProduct();".getBytes());
 
-        for(int i=0; i<iterations; i++){
+        for (int i = 0; i < iterations; i++) {
             output.write(("i" + i + " = * factoryNameWhichIsQuiteLong;").getBytes());
 //            output.write(("i" + i + " = * com.jenkov.container.TestProduct();").getBytes());
             //if(i<iterationsPerTest -1){
-                output.write("\n".getBytes());
+            output.write("\n".getBytes());
             //}
         }
 

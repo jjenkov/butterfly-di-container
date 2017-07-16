@@ -6,22 +6,21 @@ import com.jenkov.container.script.ScriptFactoryBuilder;
 
 import java.util.Locale;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class Resources {
 
-    public static final ThreadLocal<Locale> locale = new ThreadLocal<Locale>();
+    public static final ThreadLocal<Locale> locale = new ThreadLocal<>();
 
 
-    public static Locale getThreadLocale(){
+    public static Locale getThreadLocale() {
         return locale.get();
     }
 
-    public static String getString(Map<Locale, String> texts, Locale paramLocale, Locale threadLocale, Locale defaultLocale){
-        if(texts == null) throw new NullPointerException("texts parameter (Map) was null");
+    public static String getString(Map<Locale, String> texts, Locale paramLocale, Locale threadLocale, Locale defaultLocale) {
+        if (texts == null) throw new NullPointerException("texts parameter (Map) was null");
         Locale actualLocale = paramLocale;
-        if(actualLocale == null) actualLocale = threadLocale;
-        if(actualLocale == null) actualLocale = defaultLocale;
+        if (actualLocale == null) actualLocale = threadLocale;
+        if (actualLocale == null) actualLocale = defaultLocale;
 
         return texts.get(actualLocale);
     }
@@ -29,8 +28,8 @@ public class Resources {
 
     public static void main(String[] args) throws NoSuchMethodException {
 
-        IContainer           container = new Container();
-        ScriptFactoryBuilder builder   = new ScriptFactoryBuilder(container);
+        IContainer container = new Container();
+        ScriptFactoryBuilder builder = new ScriptFactoryBuilder(container);
 
         builder.addFactory("UK = java.util.Locale('en', 'gb'); ");
         builder.addFactory("DK = java.util.Locale('da', 'dk'); ");
@@ -43,11 +42,8 @@ public class Resources {
 
         System.out.println("astring = " + astring);
 
-        
 
     }
-
-
 
 
 }

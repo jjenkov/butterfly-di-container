@@ -7,14 +7,14 @@ import com.jenkov.container.itf.factory.ILocalFactory;
  */
 public class ValueFactory extends LocalFactoryBase implements ILocalFactory {
 
-    public Object value      = null;
+    public Object value = null;
 
     public ValueFactory(Object value) {
         this.value = value;
     }
 
     public Class getReturnType() {
-        if(this.value == null) return null;
+        if (this.value == null) return null;
         return this.value.getClass();
     }
 
@@ -24,7 +24,7 @@ public class ValueFactory extends LocalFactoryBase implements ILocalFactory {
 
     public String toString() {
         StringBuilder builder = new StringBuilder();
-        builder .append("<ValueFactory : ")
+        builder.append("<ValueFactory : ")
                 .append(getReturnType())
                 .append("> --> <")
                 .append(this.value)

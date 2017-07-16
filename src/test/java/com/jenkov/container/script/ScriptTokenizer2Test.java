@@ -9,7 +9,7 @@ import java.io.StringReader;
  */
 public class ScriptTokenizer2Test extends TestCase {
 
-    public void testNextToken(){
+    public void testNextToken() {
         String script = "   bean = * com;\n    bean2 = * blablabla();\n \n   \n\r \r\n";
         ScriptTokenizer tokenizer = new ScriptTokenizer(new ScriptTokenizerInputBuffer(new StringReader(script)));
 
@@ -108,7 +108,6 @@ public class ScriptTokenizer2Test extends TestCase {
 
         token = tokenizer.nextToken();
         assertNull(token);
-
 
 
     }

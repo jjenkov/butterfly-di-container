@@ -5,6 +5,7 @@ import com.jenkov.container.itf.factory.ILocalFactory;
 
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -12,23 +13,21 @@ import java.util.List;
  */
 public class ConstructorFactory extends LocalFactoryBase implements ILocalFactory {
 
-    protected Constructor       constructor             = null;
-    protected List<ILocalFactory>    constructorArgFactories = new ArrayList<ILocalFactory>();
+    protected Constructor constructor = null;
+    protected List<ILocalFactory> constructorArgFactories = new ArrayList<>();
 
-    public ConstructorFactory(Constructor constructor){
+    public ConstructorFactory(Constructor constructor) {
         this.constructor = constructor;
     }
 
     public ConstructorFactory(Constructor contructor, List<ILocalFactory> contructorArgFactories) {
-        this.constructor             = contructor;
+        this.constructor = contructor;
         this.constructorArgFactories = contructorArgFactories;
     }
 
-    public ConstructorFactory(Constructor constructor, ILocalFactory[] constructorArgFactories){
+    public ConstructorFactory(Constructor constructor, ILocalFactory[] constructorArgFactories) {
         this.constructor = constructor;
-        for(ILocalFactory factory : constructorArgFactories){
-            this.constructorArgFactories.add(factory);            
-        }
+        Collections.addAll(this.constructorArgFactories, constructorArgFactories);
     }
 
     public Constructor getConstructor() {
@@ -49,12 +48,12 @@ public class ConstructorFactory extends LocalFactoryBase implements ILocalFactor
         Object returnValue = null;
         try {
             returnValue = this.constructor.newInstance(arguments);
-        } catch (Throwable t){
+        } catch (Throwable t) {
             throw new FactoryException(
                     "ConstructorFactory", "CONSTRUCTOR_EXCEPTION",
                     "Error instantiating object from constructor " + this.constructor, t);
-        } finally{
-            for(int j=0; j<arguments.length; j++)arguments[j] = null;
+        } finally {
+            for (int j = 0; j < arguments.length; j++) arguments[j] = null;
         }
 
         return returnValue;

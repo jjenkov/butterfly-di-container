@@ -12,9 +12,9 @@ import java.util.Map;
  */
 public class FactoryInterfaceAdapter implements InvocationHandler {
 
-    IContainer          container                    = null;
-    Map<Method, String> instanceMethodFactoryNameMap = new HashMap<Method, String>();
-    String              defaultFactoryName           = null;
+    IContainer container = null;
+    final Map<Method, String> instanceMethodFactoryNameMap = new HashMap<>();
+    String defaultFactoryName = null;
 
     public FactoryInterfaceAdapter(IContainer container, String defaultFactoryName) {
         this.container = container;
@@ -23,16 +23,16 @@ public class FactoryInterfaceAdapter implements InvocationHandler {
 
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         String factoryName = null;
-        synchronized(this.instanceMethodFactoryNameMap){
+        synchronized (this.instanceMethodFactoryNameMap) {
             factoryName = this.instanceMethodFactoryNameMap.get(method);
-            if(factoryName == null){
+            if (factoryName == null) {
                 String methodName = method.getName();
-                if(methodName.endsWith("Instance") || methodName.endsWith("instance")){
+                if (methodName.endsWith("Instance") || methodName.endsWith("instance")) {
                     factoryName = methodName.substring(0, methodName.length() - "Instance".length());
                 } else {
                     factoryName = methodName;
                 }
-                if(factoryName.length() == 0) factoryName = defaultFactoryName;
+                if (factoryName.length() == 0) factoryName = defaultFactoryName;
                 this.instanceMethodFactoryNameMap.put(method, factoryName);
             }
         }

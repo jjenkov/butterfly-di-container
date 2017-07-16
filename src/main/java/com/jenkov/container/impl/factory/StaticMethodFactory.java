@@ -12,20 +12,20 @@ import java.util.List;
  */
 public class StaticMethodFactory extends LocalFactoryBase implements ILocalFactory {
 
-    protected Method              method             = null;
-    protected List<ILocalFactory> methodArgFactories = new ArrayList<ILocalFactory>();
+    protected Method method = null;
+    protected List<ILocalFactory> methodArgFactories = new ArrayList<>();
 
 
     public StaticMethodFactory(Method method, List<ILocalFactory> methodArgFactories) {
-        if(method == null) throw new IllegalArgumentException("Method cannot be null");
-        this.method             = method;
+        if (method == null) throw new IllegalArgumentException("Method cannot be null");
+        this.method = method;
         this.methodArgFactories = methodArgFactories;
     }
 
 
     public Class getReturnType() {
         //if a method returns void, it should return the invocation target instead, enabling method chaining on methods returning void.
-        if(isVoidReturnType()){
+        if (isVoidReturnType()) {
             return Class.class;
         }
 
@@ -37,22 +37,22 @@ public class StaticMethodFactory extends LocalFactoryBase implements ILocalFacto
         try {
             //if a method returns void, it should return the invocation target instead, enabling method chaining on methods returning void.
             Object returnValue = method.invoke(null, arguments);
-            if(isVoidReturnType()){
+            if (isVoidReturnType()) {
                 return null;
             }
 
             return returnValue;
-        } catch(NullPointerException e){
+        } catch (NullPointerException e) {
             throw new FactoryException(
                     "StaticMethodFactory", "INSTANTIATION_ERROR",
                     "Error instantiating object from static method [" + this.method +
                             "]. Are you sure the method is declared static?"
                     , e);
-        } catch (Throwable t){
+        } catch (Throwable t) {
             throw new FactoryException(
                     "StaticMethodFactory", "INSTANTIATION_ERROR",
                     "Error instantiating object from static method [" + this.method + "]", t);
-        }finally{
+        } finally {
             //for(int j=0; j<arguments.length; j++)arguments[j] = null;
         }
     }

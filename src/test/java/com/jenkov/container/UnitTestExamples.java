@@ -1,7 +1,7 @@
 package com.jenkov.container;
 
-import junit.framework.TestCase;
 import com.jenkov.container.script.ScriptFactoryBuilder;
+import junit.framework.TestCase;
 //import com.jenkov.testing.mock.impl.MockFactory;
 //import com.jenkov.testing.mock.itf.IMock;
 
@@ -9,8 +9,8 @@ import com.jenkov.container.script.ScriptFactoryBuilder;
  * @author Jakob Jenkov - Copyright 2004-2006 Jenkov Development
  */
 public class UnitTestExamples extends TestCase {
-    public void test(){
-        IContainer           container     = new Container();
+    public void test() {
+        IContainer container = new Container();
         ScriptFactoryBuilder scriptBuilder = new ScriptFactoryBuilder(container);
 
         scriptBuilder.addFactory("test = * com.jenkov.container.TestProduct().setValue1('value1');");
@@ -18,7 +18,7 @@ public class UnitTestExamples extends TestCase {
         assertEquals("value1", product.getValue1());
     }
 
-    public void test2(){
+    public void test2() {
 
         /*
         IContainer           container     = new Container();

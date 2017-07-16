@@ -12,26 +12,26 @@ import java.util.Locale;
  */
 public class ResourceTest extends TestCase {
 
-    public static final ThreadLocal<Locale> threadLocal = new ThreadLocal<Locale>();
+    public static final ThreadLocal<Locale> threadLocal = new ThreadLocal<>();
 
-    public static Locale getThreadLocale(){
+    public static Locale getThreadLocale() {
         return threadLocal.get();
     }
 
- 
-    public void testLocalization(){
-        IContainer           container = new Container();
-        ScriptFactoryBuilder builder   = new ScriptFactoryBuilder(container);
+
+    public void testLocalization() {
+        IContainer container = new Container();
+        ScriptFactoryBuilder builder = new ScriptFactoryBuilder(container);
 
         builder.addFactory("UK = java.util.Locale('en', 'gb'); ");
         builder.addFactory("DK = java.util.Locale('da', 'dk'); ");
         builder.addFactory("ES = java.util.Locale('es', 'es'); ");
         builder.addFactory("threadLocale = * com.jenkov.container.resources.Resources.getThreadLocale(); ");
         builder.addFactory("localize = * com.jenkov.container.resources.Resources.getString($1, $0, threadLocale, UK);");
-        builder.addFactory("astring  = * localize($0, <DK : 'hej', UK : 'hello', ES: 'hola'> ); " );
+        builder.addFactory("astring  = * localize($0, <DK : 'hej', UK : 'hello', ES: 'hola'> ); ");
 
         assertNull(container.instance("threadLocale"));
-        
+
 
         String astring = (String) container.instance("astring");
         assertEquals("hello", astring);

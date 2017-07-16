@@ -4,7 +4,7 @@ import com.jenkov.container.itf.factory.ILocalFactory;
 
 /**
  * This class is a local singleton factory.
- *
+ * <p>
  * Local singletons do not have their own life cycle phases. The products managed by a local singleton
  * will share life cycle phases with the global factory they are part of. If you need to manage the
  * life cycle of a local singleton, make it a named local factory, and reference the named local product
@@ -15,7 +15,7 @@ import com.jenkov.container.itf.factory.ILocalFactory;
 public class LocalSingletonFactory extends LocalFactoryBase implements ILocalFactory {
 
     protected ILocalFactory sourceFactory = null;
-    protected Object   instance      = null;
+    protected Object instance = null;
 
     public LocalSingletonFactory(ILocalFactory sourceFactory) {
         this.sourceFactory = sourceFactory;
@@ -26,11 +26,11 @@ public class LocalSingletonFactory extends LocalFactoryBase implements ILocalFac
     }
 
     public synchronized Object instance(Object[] parameters, Object[] localProducts) {
-        if(this.instance == null){
+        if (this.instance == null) {
             this.instance = this.sourceFactory.instance(parameters, localProducts);
         }
         return this.instance;
     }
 
-    
+
 }

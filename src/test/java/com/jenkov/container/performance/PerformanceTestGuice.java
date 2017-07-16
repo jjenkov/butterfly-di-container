@@ -1,16 +1,6 @@
 package com.jenkov.container.performance;
 
 //import com.google.inject.*;
-import com.jenkov.container.TestProduct;
-import com.jenkov.container.Container;
-import com.jenkov.container.IContainer;
-import com.jenkov.container.itf.factory.IGlobalFactory;
-import com.jenkov.container.script.ScriptFactoryBuilder;
-import com.jenkov.container.java.JavaFactoryBuilder;
-import com.jenkov.container.java.JavaFactory;
-
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 
 /**
 
@@ -18,7 +8,7 @@ import java.lang.reflect.InvocationTargetException;
 public class PerformanceTestGuice {
 
 
-    public static int iterationsPerTest    = 10 * 1000 * 1000;
+    public static int iterationsPerTest = 10 * 1000 * 1000;
     public static int iterationsOfAllTests = 10;
 
     //public static void main(String[] args) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {

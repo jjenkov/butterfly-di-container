@@ -14,7 +14,7 @@ public class Container implements IContainer {
     protected Map<String, IGlobalFactory> factories = null;
 
     public Container() {
-        this.factories = new ConcurrentHashMap<String, IGlobalFactory>();
+        this.factories = new ConcurrentHashMap<>();
     }
 
     public Container(Map<String, IGlobalFactory> factories) {
@@ -23,22 +23,22 @@ public class Container implements IContainer {
 
 
     public void addFactory(String name, IGlobalFactory factory) {
-        if(this.factories.containsKey(name)) throw
+        if (this.factories.containsKey(name)) throw
                 new ContainerException(
                         "Container", "FACTORY_ALREADY_EXISTS",
                         "Container already contains a factory with this name: " + name);
         this.factories.put(name, new GlobalFactoryProxy(factory));
     }
 
-    public void addValueFactory(String id, Object value){
+    public void addValueFactory(String id, Object value) {
         GlobalFactoryBase factory = new GlobalNewInstanceFactory();
         factory.setLocalInstantiationFactory(new ValueFactory(value));
         this.factories.put(id, new GlobalFactoryProxy(factory));
     }
 
-    public IGlobalFactory replaceFactory(String name, IGlobalFactory newFactory){
+    public IGlobalFactory replaceFactory(String name, IGlobalFactory newFactory) {
         GlobalFactoryProxy factoryProxy = (GlobalFactoryProxy) this.factories.get(name);
-        if(factoryProxy == null) {
+        if (factoryProxy == null) {
             addFactory(name, newFactory);
             return null;
         } else {
@@ -51,49 +51,48 @@ public class Container implements IContainer {
     }
 
     public IGlobalFactory getFactory(String id) {
-        IGlobalFactory factory = this.factories.get(id);
         //if(factory == null) throw new ContainerException("Unknown Factory: " + id);
-        return factory;
+        return this.factories.get(id);
     }
 
     public Map<String, IGlobalFactory> getFactories() {
         return this.factories;
     }
 
-    public Object instance(String id, Object ... parameters){
+    public Object instance(String id, Object... parameters) {
         IGlobalFactory factory = this.factories.get(id);
-        if(factory == null) throw new ContainerException(
-                "Container", "UNKNOWN_FACTORY",                    
+        if (factory == null) throw new ContainerException(
+                "Container", "UNKNOWN_FACTORY",
                 "Unknown Factory: " + id);
         return factory.instance(parameters);
     }
 
-    public void init(){
-        for(String key : this.factories.keySet()){
+    public void init() {
+        for (String key : this.factories.keySet()) {
             Object factory = this.factories.get(key);
 
-            if(factory instanceof GlobalFactoryProxy){
+            if (factory instanceof GlobalFactoryProxy) {
                 factory = ((GlobalFactoryProxy) factory).getDelegateFactory();
-                if(factory instanceof GlobalSingletonFactory){
+                if (factory instanceof GlobalSingletonFactory) {
                     ((GlobalSingletonFactory) factory).instance();
                 }
             }
         }
     }
 
-    public void dispose(){
+    public void dispose() {
         execPhase("dispose");
     }
 
     public void execPhase(String phase) {
-        for(String key : this.factories.keySet()){
+        for (String key : this.factories.keySet()) {
             execPhase(phase, key);
         }
     }
 
     public void execPhase(String phase, String factoryName) {
-        Object factory  = this.factories.get(factoryName);
-        if(factory instanceof GlobalFactoryProxy){
+        Object factory = this.factories.get(factoryName);
+        if (factory instanceof GlobalFactoryProxy) {
             ((GlobalFactoryProxy) factory).execPhase(phase);
         }
     }

@@ -5,13 +5,13 @@ import com.jenkov.container.IContainer;
 /**
  * @author Jakob Jenkov - Copyright 2004-2006 Jenkov Development
  */
-public class TestThread extends Thread{
+public class TestThread extends Thread {
 
     protected Object instance1 = null;
     protected Object instance2 = null;
 
-    protected String string1   = null;
-    protected String string2   = null;
+    protected String string1 = null;
+    protected String string2 = null;
 
     protected IContainer container = null;
 

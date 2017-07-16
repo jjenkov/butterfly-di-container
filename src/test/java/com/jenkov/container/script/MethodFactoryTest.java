@@ -10,7 +10,7 @@ import junit.framework.TestCase;
  */
 public class MethodFactoryTest extends TestCase {
 
-    public void testMethodModifiers(){
+    public void testMethodModifiers() {
         Container container = new Container();
         ScriptFactoryBuilder builder = new ScriptFactoryBuilder(container);
 
@@ -18,10 +18,10 @@ public class MethodFactoryTest extends TestCase {
             builder.addFactory("test = * com.jenkov.container.TestProduct().createProduct();");
             fail("The createProduct() method is static and trying to call it on an instance should throw exception");
         } catch (ParserException e) {
-            if(!"FactoryBuilder".equals(e.getInfoItems().get(0).errorContext)){
+            if (!"FactoryBuilder".equals(e.getInfoItems().get(0).errorContext)) {
                 fail("Wrong exception caught");
             }
-            if(!"INSTANCE_METHOD_FACTORY_ERROR".equals(e.getInfoItems().get(0).errorCode)){
+            if (!"INSTANCE_METHOD_FACTORY_ERROR".equals(e.getInfoItems().get(0).errorCode)) {
                 fail("Wrong exception caught");
             }
         }
@@ -31,15 +31,13 @@ public class MethodFactoryTest extends TestCase {
             builder.addFactory("test = * com.jenkov.container.TestProduct.getValue1();");
             fail("The createProduct() method is static and trying to call it on an instance should throw exception");
         } catch (ParserException e) {
-            if(!"FactoryBuilder".equals(e.getInfoItems().get(0).errorContext)){
+            if (!"FactoryBuilder".equals(e.getInfoItems().get(0).errorContext)) {
                 fail("Wrong exception caught");
             }
-            if(!"STATIC_METHOD_FACTORY_ERROR".equals(e.getInfoItems().get(0).errorCode)){
+            if (!"STATIC_METHOD_FACTORY_ERROR".equals(e.getInfoItems().get(0).errorCode)) {
                 fail("Wrong exception caught");
             }
         }
-
-
 
 
     }

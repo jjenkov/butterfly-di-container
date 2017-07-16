@@ -1,11 +1,11 @@
 package com.jenkov.container.script;
 
-import junit.framework.TestCase;
 import com.jenkov.container.TestProduct;
+import junit.framework.TestCase;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.Type;
 import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 
 /**
 
@@ -25,10 +25,10 @@ public class FieldGenericTypeTest extends TestCase {
 //        System.out.println(type.getRawType());
 
         Type[] typeArguments = type.getActualTypeArguments();
-        for(Type typeArgument : typeArguments){
+        for (Type typeArgument : typeArguments) {
             Class typeArgumentClass = (Class) typeArgument;
 //            System.out.println(typeArgumentClass);
         }
-        
+
     }
 }

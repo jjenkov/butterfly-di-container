@@ -3,7 +3,6 @@ package com.jenkov.container.script;
 import com.jenkov.container.Container;
 import com.jenkov.container.TestProduct;
 import com.jenkov.container.impl.factory.*;
-import com.jenkov.container.itf.factory.IGlobalFactory;
 import junit.framework.TestCase;
 
 import java.io.FileInputStream;
@@ -15,23 +14,21 @@ import java.io.IOException;
 public class ScriptFactoryBuilder2Test extends TestCase {
 
 
-
-
-    public void testUnknownFactories(){
+    public void testUnknownFactories() {
         Container container = new Container();
         ScriptFactoryBuilder builder = new ScriptFactoryBuilder(container);
         builder.addFactory("decimal1 = com.jenkov.container.TestProduct().setDecimal(1.55); ");
 
-        try{
+        try {
             builder.addFactory("decimal2 = com.jenkov.container.TestProduct(decimal).setDecimal(1.55); ");
             fail("should fail because 'decimal' factory does not exist");
-        }catch(ParserException e){
+        } catch (ParserException e) {
             //ignore, expected
         }
 
     }
 
-    public void testDoubleValues(){
+    public void testDoubleValues() {
         Container container = new Container();
         ScriptFactoryBuilder builder = new ScriptFactoryBuilder(container);
         builder.addFactory("decimal = com.jenkov.container.TestProduct().setDecimal(1.55); ");
@@ -40,7 +37,7 @@ public class ScriptFactoryBuilder2Test extends TestCase {
 
     }
 
-    public void testFactoryAssignment(){
+    public void testFactoryAssignment() {
         Container container = new Container();
         ScriptFactoryBuilder builder = new ScriptFactoryBuilder(container);
 
@@ -50,9 +47,9 @@ public class ScriptFactoryBuilder2Test extends TestCase {
         assertEquals(5, TestProduct.staticInt);
 
         builder.addFactory("bean2 = com.jenkov.container.TestProduct(); " +
-                           " config { $bean2.instanceInt = 8; }");
+                " config { $bean2.instanceInt = 8; }");
         TestProduct bean2 = (TestProduct) container.instance("bean2");
-        assertEquals(8, bean2.instanceInt );
+        assertEquals(8, bean2.instanceInt);
 
         TestProduct.staticInt = -1; //set back, because ScriptFactoryBuilderTest expects it as -1 as initial value.
 
@@ -60,7 +57,7 @@ public class ScriptFactoryBuilder2Test extends TestCase {
     }
 
 
-    public void testClassInjection(){
+    public void testClassInjection() {
         Container container = new Container();
         ScriptFactoryBuilder builder = new ScriptFactoryBuilder(container);
 
@@ -87,11 +84,11 @@ public class ScriptFactoryBuilder2Test extends TestCase {
         assertEquals("null", product1.getValue2());
     }
 
-    public void testNullInjection2(){
+    public void testNullInjection2() {
         Container container = new Container();
         ScriptFactoryBuilder builder = new ScriptFactoryBuilder(container);
         builder.addFactory("bean1 = com.jenkov.container.TestProduct((com.jenkov.container.TestProduct) null).setValues(1, (java.lang.String) 2); " +
-                             "    config { $bean1.setValues(null, (java.lang.String) null); } ");
+                "    config { $bean1.setValues(null, (java.lang.String) null); } ");
 
         TestProduct product1 = (TestProduct) container.instance("bean1");
         assertNull(product1.getValue1());
@@ -103,11 +100,8 @@ public class ScriptFactoryBuilder2Test extends TestCase {
     public void testConfigFiles() throws IOException {
         Container container = new Container();
         ScriptFactoryBuilder builder = new ScriptFactoryBuilder(container);
-        FileInputStream fileInput = new FileInputStream("test-config.script");
-        try{
+        try (FileInputStream fileInput = new FileInputStream("test-config.script")) {
             builder.addFactories(fileInput);
-        }finally {
-            fileInput.close();
         }
 
         TestProduct testProduct1 = (TestProduct) container.instance("bean1");
@@ -123,12 +117,10 @@ public class ScriptFactoryBuilder2Test extends TestCase {
         assertSame(testProduct3_1, testProduct3_2);
 
 
-
-
     }
 
 
-    public void testCasting(){
+    public void testCasting() {
         String script = "test = * com.jenkov.container.TestProduct();" +
                 "config {$test.setValues(\"1\",(java.lang.String)\"2\"); }";
 
@@ -137,9 +129,9 @@ public class ScriptFactoryBuilder2Test extends TestCase {
         builder.addFactory(script);
     }
 
-    public void testLocalProducts(){
+    public void testLocalProducts() {
         String script = "test = * com.jenkov.container.script.SomeFactoryProduct($0);" +
-                             "    config{ $test.setArg1(\"override\"); } ";
+                "    config{ $test.setArg1(\"override\"); } ";
         Container container = new Container();
         ScriptFactoryBuilder builder = new ScriptFactoryBuilder(container);
 
@@ -148,7 +140,7 @@ public class ScriptFactoryBuilder2Test extends TestCase {
         assertEquals("override", product.getArg1());
     }
 
-    public void testBuildInputConsumingFactory(){
+    public void testBuildInputConsumingFactory() {
         String script = "test = * com.jenkov.container.script.SomeFactoryProduct($0);";
         Container container = new Container();
         ScriptFactoryBuilder builder = new ScriptFactoryBuilder(container);
@@ -186,7 +178,7 @@ public class ScriptFactoryBuilder2Test extends TestCase {
         assertEquals("overrideValue", product.getArg1());
     }
 
-    public void testBuildConstructorFactory(){
+    public void testBuildConstructorFactory() {
         Container container = new Container();
         ScriptFactoryBuilder builder = new ScriptFactoryBuilder(container);
 
@@ -208,7 +200,6 @@ public class ScriptFactoryBuilder2Test extends TestCase {
         assertNotNull(product.getInternalProduct());
 
     }
-
 
 
 }

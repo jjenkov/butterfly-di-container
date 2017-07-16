@@ -1,8 +1,11 @@
 package com.jenkov.container.script;
 
-import com.jenkov.container.script.ParserException;
-
-import java.io.*;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.StringReader;
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.Stack;
 
 /**
@@ -11,11 +14,11 @@ import java.util.Stack;
 public class ParserInput {
 
     protected ScriptTokenizer scriptTokenizer = null;
-    protected Stack<ParserMark> marks  = new Stack<ParserMark>();
+    protected final Deque<ParserMark> marks = new ArrayDeque<>();
 
     /**
-     * @deprecated Use the constructor that takes a Reader instead.
      * @param input
+     * @deprecated Use the constructor that takes a Reader instead.
      */
     public ParserInput(InputStream input) {
         this.scriptTokenizer = new ScriptTokenizer(new ScriptTokenizerInputBuffer(new InputStreamReader(input)));
@@ -24,36 +27,32 @@ public class ParserInput {
     public ParserInput(Reader reader) {
         this.scriptTokenizer = new ScriptTokenizer(new ScriptTokenizerInputBuffer(reader));
     }
-    
 
-    public ParserInput(String input){
+
+    public ParserInput(String input) {
         this.scriptTokenizer = new ScriptTokenizer(new ScriptTokenizerInputBuffer(new StringReader(input)));
     }
 
 
-
-
-
-
-    public void factoryStart(){
+    public void factoryStart() {
         this.scriptTokenizer.factoryStart();
     }
 
-    public boolean isNextElseBacktrack(Token expectedToken){
+    public boolean isNextElseBacktrack(Token expectedToken) {
         mark();
         Token nextToken = nextToken();
         boolean matches = expectedToken.equals(nextToken);
-        if(matches) clearMark();
-        else        backtrack();
+        if (matches) clearMark();
+        else backtrack();
         return matches;
     }
 
-    public void assertNextToken(Token token){
+    public void assertNextToken(Token token) {
         Token nextToken = nextToken();
-        if(nextToken == null || !nextToken.equals(token)){
+        if (nextToken == null || !nextToken.equals(token)) {
             throw new ParserException(
                     "ParserInput", "ASSERT_NEXT_TOKEN",
-                    "Error (" + this.scriptTokenizer.getLineNo() + ", " + this.scriptTokenizer.getCharNo() + 
+                    "Error (" + this.scriptTokenizer.getLineNo() + ", " + this.scriptTokenizer.getCharNo() +
                             "): Expected token " + token + " but found " + nextToken);
         }
     }
@@ -65,42 +64,42 @@ public class ParserInput {
         return nextToken;
     }
 
-    public Token markAndNextToken(){
+    public Token markAndNextToken() {
         mark();
         return nextToken();
     }
 
-    public Token nextToken()  {
+    public Token nextToken() {
         Token nextToken = this.scriptTokenizer.nextToken();
-        if(nextToken == null) return null;
+        if (nextToken == null) return null;
         return nextToken;
     }
 
-    public void assertNoMarks(){
-        if(this.marks.size() > 0){
+    public void assertNoMarks() {
+        if (this.marks.size() > 0) {
             throw new ParserException(
                     "ParserInput", "ASSERT_NO_MARKS",
                     "There should have been no marks at the current parsing point");
         }
     }
 
-    public int mark(){
+    public int mark() {
         ParserMark mark = this.scriptTokenizer.mark();
         this.marks.push(mark);
         return this.marks.size();
     }
 
-    public int backtrack(){
+    public int backtrack() {
         ParserMark mark = this.marks.pop();
         this.scriptTokenizer.backtrackTo(mark);
         return this.marks.size() + 1;
     }
 
-    public void clearMark(){
+    public void clearMark() {
         this.marks.pop();
     }
 
-    public boolean hasMark(){
+    public boolean hasMark() {
         return this.marks.size() > 0;
     }
 

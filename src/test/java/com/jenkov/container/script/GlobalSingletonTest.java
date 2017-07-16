@@ -1,16 +1,16 @@
 package com.jenkov.container.script;
 
-import junit.framework.TestCase;
-import com.jenkov.container.IContainer;
 import com.jenkov.container.Container;
+import com.jenkov.container.IContainer;
 import com.jenkov.container.TestProduct;
+import junit.framework.TestCase;
 
 /**
  * @author Jakob Jenkov - Copyright 2004-2006 Jenkov Development
  */
 public class GlobalSingletonTest extends TestCase {
 
-    public void testInstance(){
+    public void testInstance() {
         IContainer container = new Container();
         ScriptFactoryBuilder builder = new ScriptFactoryBuilder(container);
 
@@ -25,7 +25,7 @@ public class GlobalSingletonTest extends TestCase {
 
         builder.addFactory(
                 "bean2 = 1 com.jenkov.container.TestProduct();" +
-                "    config{ $bean2.setValue1(\"value1\"); }");
+                        "    config{ $bean2.setValue1(\"value1\"); }");
 
         TestProduct product2 = (TestProduct) container.instance("bean2");
         assertEquals("value1", product2.getValue1());
@@ -35,9 +35,9 @@ public class GlobalSingletonTest extends TestCase {
 
         builder.addFactory(
                 "bean3 = 1 com.jenkov.container.TestProduct();" +
-                "    config { $bean3.setValue1(\"value1\"); } " +
-                "    myPhase{ $bean3.setValue2(\"value2\"); } " +
-                "    dispose{ $bean3.setValue2(\"disposed\"); }");
+                        "    config { $bean3.setValue1(\"value1\"); } " +
+                        "    myPhase{ $bean3.setValue2(\"value2\"); } " +
+                        "    dispose{ $bean3.setValue2(\"disposed\"); }");
 
         TestProduct product3 = (TestProduct) container.instance("bean3");
         assertEquals("value1", product2.getValue1());

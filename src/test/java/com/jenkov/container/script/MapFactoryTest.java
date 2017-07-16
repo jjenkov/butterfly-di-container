@@ -1,9 +1,9 @@
 package com.jenkov.container.script;
 
-import junit.framework.TestCase;
-import com.jenkov.container.IContainer;
 import com.jenkov.container.Container;
+import com.jenkov.container.IContainer;
 import com.jenkov.container.itf.factory.IGlobalFactory;
+import junit.framework.TestCase;
 
 import java.util.Map;
 
@@ -12,9 +12,9 @@ import java.util.Map;
  */
 public class MapFactoryTest extends TestCase {
 
-    public void test(){
-        IContainer           container = new Container();
-        ScriptFactoryBuilder builder   = new ScriptFactoryBuilder(container);
+    public void test() {
+        IContainer container = new Container();
+        ScriptFactoryBuilder builder = new ScriptFactoryBuilder(container);
 
         builder.addFactory("map = * <'key':'value'>; ");
 
@@ -24,14 +24,14 @@ public class MapFactoryTest extends TestCase {
     }
 
     public void testFactoryAsValue() {
-        IContainer           container = new Container();
-        ScriptFactoryBuilder builder   = new ScriptFactoryBuilder(container);
+        IContainer container = new Container();
+        ScriptFactoryBuilder builder = new ScriptFactoryBuilder(container);
 
         builder.addFactory("index  = 'index value';");
 
         String indexValue = (String) container.instance("index");
         assertEquals("index value", indexValue);
-        
+
 
         builder.addFactory("uriMap = 1 < '/index3.html' : #index >;");
 
@@ -45,8 +45,8 @@ public class MapFactoryTest extends TestCase {
     }
 
     public void testNewInstanceAndSingleonMaps() {
-        IContainer           container = new Container();
-        ScriptFactoryBuilder builder   = new ScriptFactoryBuilder(container);
+        IContainer container = new Container();
+        ScriptFactoryBuilder builder = new ScriptFactoryBuilder(container);
 
         builder.addFactory("index  = 'index value';");
 

@@ -1,6 +1,5 @@
 package com.jenkov.container.java;
 
-import com.jenkov.container.IContainer;
 import com.jenkov.container.itf.factory.IGlobalFactory;
 
 /**
@@ -8,7 +7,7 @@ import com.jenkov.container.itf.factory.IGlobalFactory;
  */
 public class JavaFactory implements IGlobalFactory {
 
-    protected Class      returnType = null;
+    protected Class returnType = null;
 
     public Class getReturnType() {
         return returnType;
@@ -23,6 +22,6 @@ public class JavaFactory implements IGlobalFactory {
     }
 
     public Object[] execPhase(String phase, Object... parameters) {
-        return new Object[0];  
+        return new Object[0];
     }
 }

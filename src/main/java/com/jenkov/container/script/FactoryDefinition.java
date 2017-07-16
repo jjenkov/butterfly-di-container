@@ -2,10 +2,10 @@ package com.jenkov.container.script;
 
 //import com.jenkov.container.itf.factory.FactoryException;
 
-import java.util.List;
-import java.util.Map;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author Jakob Jenkov - Copyright 2004-2006 Jenkov Development
@@ -18,44 +18,44 @@ public class FactoryDefinition {
      * These constants are only used while building the factories. After that they are forgotten.
      * They are strings to ease debugging of the parser/builder.
      */
-    public static final String CONSTRUCTOR_FACTORY               = "Constructor Factory";
-    public static final String INSTANCE_METHOD_FACTORY           = "Instance Method Factory";
-    public static final String STATIC_METHOD_FACTORY             = "Static Method Factory";
-    public static final String INSTANCE_FIELD_FACTORY            = "Instance Field Factory";
+    public static final String CONSTRUCTOR_FACTORY = "Constructor Factory";
+    public static final String INSTANCE_METHOD_FACTORY = "Instance Method Factory";
+    public static final String STATIC_METHOD_FACTORY = "Static Method Factory";
+    public static final String INSTANCE_FIELD_FACTORY = "Instance Field Factory";
     public static final String INSTANCE_FIELD_ASSIGNMENT_FACTORY = "Instance Field Assignment Factory";
-    public static final String STATIC_FIELD_FACTORY              = "Static Field Factory";
-    public static final String STATIC_FIELD_ASSIGNMENT_FACTORY   = "Static Field Assignment Factory";
-    public static final String VALUE_FACTORY                     = "Value Factory";
-    public static final String FACTORY_CALL_FACTORY              = "Factory Call Factory";
-    public static final String FACTORY_FACTORY                   = "Factory Factory";
-    public static final String LOCAL_PRODUCT_FACTORY             = "Local Product Factory";
-    public static final String INPUT_PARAMETER_FACTORY           = "Input Parameter Factory";
-    public static final String COLLECTION_FACTORY                = "Collection Factory";
-    public static final String MAP_FACTORY                       = "Map Facfory";
+    public static final String STATIC_FIELD_FACTORY = "Static Field Factory";
+    public static final String STATIC_FIELD_ASSIGNMENT_FACTORY = "Static Field Assignment Factory";
+    public static final String VALUE_FACTORY = "Value Factory";
+    public static final String FACTORY_CALL_FACTORY = "Factory Call Factory";
+    public static final String FACTORY_FACTORY = "Factory Factory";
+    public static final String LOCAL_PRODUCT_FACTORY = "Local Product Factory";
+    public static final String INPUT_PARAMETER_FACTORY = "Input Parameter Factory";
+    public static final String COLLECTION_FACTORY = "Collection Factory";
+    public static final String MAP_FACTORY = "Map Facfory";
 
 
-    String                                    name                          = null;
-    String                                    mode                          = "1";  //*,  1, 5, 6,10   (new, singleton, pool, dynamic pool)
-    String                                    factoryType                   = null;    //name ref, factory, constructor, value, input parameter, method, field, collection, map
-    Class                                     returnType                    = null;
-    String                                    forcedReturnType              = null;
+    String name = null;
+    String mode = "1";  //*,  1, 5, 6,10   (new, singleton, pool, dynamic pool)
+    String factoryType = null;    //name ref, factory, constructor, value, input parameter, method, field, collection, map
+    Class returnType = null;
+    String forcedReturnType = null;
 
-    String                                    identifier                    = null;
-    String                                    identifierOwnerClass          = null;
-    FactoryDefinition                         identifierTargetFactory       = null;
+    String identifier = null;
+    String identifierOwnerClass = null;
+    FactoryDefinition identifierTargetFactory = null;
 
-    int                                       creationInputParameterCount   = 0;
+    int creationInputParameterCount = 0;
 
 //    List<FactoryDefinition>                   collection                    = null;
 //    Map<FactoryDefinition, FactoryDefinition> map                           = null; //what is this?
 
-    List<FactoryDefinition>                   instantiationArgKeyFactories  = null;
-    List<FactoryDefinition>                   instantiationArgFactories     = null; //todo change this name to argumentFactories?
-    Map<String, List<FactoryDefinition>>      phaseFactories                = null;
+    List<FactoryDefinition> instantiationArgKeyFactories = null;
+    List<FactoryDefinition> instantiationArgFactories = null; //todo change this name to argumentFactories?
+    Map<String, List<FactoryDefinition>> phaseFactories = null;
 
-    FactoryDefinition                         parent                        = null;
-    Map<String, Integer>                      localFactoryNameIndexMap      = null;
-    Map<String, Class>                        localFactoryNameTypeMap       = null;
+    FactoryDefinition parent = null;
+    Map<String, Integer> localFactoryNameIndexMap = null;
+    Map<String, Class> localFactoryNameTypeMap = null;
 
 
     public String getName() {
@@ -66,37 +66,36 @@ public class FactoryDefinition {
         this.name = name;
     }
 
-    public boolean isGlobalFactory(){
+    public boolean isGlobalFactory() {
         return this.parent == null && getName() != null;
     }
 
-    public boolean isAnonymousLocalFactory(){
+    public boolean isAnonymousLocalFactory() {
         return this.parent != null && getName() == null;
     }
 
-    public boolean isNamedLocalFactory(){
+    public boolean isNamedLocalFactory() {
         return this.parent != null && getName() != null;
     }
 
-    public boolean isNewInstance(){
-        if(getName() == null) return true; //anonymous factories are always new instance factories.
-        return "*".equals(getMode());
+    public boolean isNewInstance() {
+        //anonymous factories are always new instance factories.
+        return getName() == null || "*".equals(getMode());
     }
 
-    public boolean isSingleton(){
-        if(isInputParameterFactory()) return false;
-        return "1".equals(getMode());
+    public boolean isSingleton() {
+        return !isInputParameterFactory() && "1".equals(getMode());
     }
 
-    public boolean isFlyweight(){
+    public boolean isFlyweight() {
         return "1F".equals(mode.toUpperCase());
     }
 
-    public boolean isThreadSingleton(){
+    public boolean isThreadSingleton() {
         return "1T".equals(mode.toUpperCase());
     }
 
-    public boolean isLocalizedMap(){
+    public boolean isLocalizedMap() {
         return "L".equals(mode.toUpperCase());
     }
 
@@ -156,61 +155,61 @@ public class FactoryDefinition {
         this.identifierTargetFactory = identifierTargetFactory;
     }
 
-    public boolean isConstructorFactory(){
+    public boolean isConstructorFactory() {
         return this.factoryType == CONSTRUCTOR_FACTORY;
     }
 
-    public boolean isStaticMethodFactory(){
+    public boolean isStaticMethodFactory() {
         return this.factoryType == STATIC_METHOD_FACTORY;
     }
 
-    public boolean isInstanceMethodFactory(){
+    public boolean isInstanceMethodFactory() {
         return this.factoryType == INSTANCE_METHOD_FACTORY;
     }
 
-    public boolean isStaticFieldFactory(){
+    public boolean isStaticFieldFactory() {
         return this.factoryType == STATIC_FIELD_FACTORY;
     }
 
-    public boolean isStaticFieldAssignmentFactory(){
+    public boolean isStaticFieldAssignmentFactory() {
         return this.factoryType == STATIC_FIELD_ASSIGNMENT_FACTORY;
     }
 
-    public boolean isInstanceFieldFactory(){
+    public boolean isInstanceFieldFactory() {
         return this.factoryType == INSTANCE_FIELD_FACTORY;
     }
 
-    public boolean isInstanceFieldAssignmentFactory(){
+    public boolean isInstanceFieldAssignmentFactory() {
         return this.factoryType == INSTANCE_FIELD_ASSIGNMENT_FACTORY;
     }
 
-    public boolean isValueFactory(){
+    public boolean isValueFactory() {
         return this.factoryType == VALUE_FACTORY;
     }
 
-    public boolean isFactoryCallFactory(){
+    public boolean isFactoryCallFactory() {
         return this.factoryType == FACTORY_CALL_FACTORY;
     }
 
-    public boolean isFactoryFactory(){
+    public boolean isFactoryFactory() {
         return this.factoryType == FACTORY_FACTORY;
     }
 
-    public boolean isLocalProductFactory(){
-       return this.factoryType == LOCAL_PRODUCT_FACTORY;
+    public boolean isLocalProductFactory() {
+        return this.factoryType == LOCAL_PRODUCT_FACTORY;
     }
 
-    public boolean isInputParameterFactory(){
+    public boolean isInputParameterFactory() {
         return this.factoryType == INPUT_PARAMETER_FACTORY;
     }
 
-   public boolean isCollectionFactory(){
-       return this.factoryType == COLLECTION_FACTORY;
-   }
+    public boolean isCollectionFactory() {
+        return this.factoryType == COLLECTION_FACTORY;
+    }
 
-   public boolean isMapFactory(){
-       return this.factoryType == MAP_FACTORY;
-   }
+    public boolean isMapFactory() {
+        return this.factoryType == MAP_FACTORY;
+    }
 
 
     public int getCreationInputParameterCount() {
@@ -245,8 +244,8 @@ public class FactoryDefinition {
         this.phaseFactories = phaseFactories;
     }
 
-    public FactoryDefinition getRoot(){
-        if(getParent() == null || getParent() == this) return this;
+    public FactoryDefinition getRoot() {
+        if (getParent() == null || getParent() == this) return this;
         return getParent().getRoot();
     }
 
@@ -258,12 +257,12 @@ public class FactoryDefinition {
         this.parent = parent;
     }
 
-    public int getNamedLocalProductCount(){
+    public int getNamedLocalProductCount() {
         return getLocalFactoryNameIndexMap().size();
     }
 
     public Map<String, Integer> getLocalFactoryNameIndexMap() {
-        if(getRootAncestor() ==  this) return this.localFactoryNameIndexMap;
+        if (getRootAncestor() == this) return this.localFactoryNameIndexMap;
         return getRootAncestor().getLocalFactoryNameIndexMap();
     }
 
@@ -272,65 +271,65 @@ public class FactoryDefinition {
     }
 
     public Map<String, Class> getLocalFactoryNameTypeMap() {
-        if(getRootAncestor() == this) return localFactoryNameTypeMap;
+        if (getRootAncestor() == this) return localFactoryNameTypeMap;
         return getRootAncestor().getLocalFactoryNameTypeMap();
     }
 
-    public void setLocalProductType(String localProductName, Class type){
+    public void setLocalProductType(String localProductName, Class type) {
         getLocalFactoryNameTypeMap().put(localProductName, type);
     }
 
-    public Class getLocalProductType(){
+    public Class getLocalProductType() {
         return getLocalFactoryNameTypeMap().get(getIdentifier());
     }
 
-    public int getLocalProductIndex(){
-        if(getName() == null && getIdentifier() == null)
+    public int getLocalProductIndex() {
+        if (getName() == null && getIdentifier() == null)
             throw new IllegalStateException("Only a factory with a name or local product reference has a local product index");
 
         Map<String, Integer> nameIndexMap = getLocalFactoryNameIndexMap();
 
-        if(getName() != null) {
-            if(nameIndexMap.get(getName()) == null) throw
+        if (getName() != null) {
+            if (nameIndexMap.get(getName()) == null) throw
                     new ParserException("FactoryDefinition", "UNKNOWN_FACTORY", "Uknown factory: " + getName());
             return nameIndexMap.get(getName());
         } else {
-            if(nameIndexMap.get(getIdentifier()) == null) throw
+            if (nameIndexMap.get(getIdentifier()) == null) throw
                     new ParserException("FactoryDefinition", "UNKNOWN_FACTORY", "Uknown factory: " + getIdentifier());
             return nameIndexMap.get(getIdentifier());
         }
     }
 
-    public FactoryDefinition getRootAncestor(){
-        if(getParent() == null) return this;
+    public FactoryDefinition getRootAncestor() {
+        if (getParent() == null) return this;
 
         FactoryDefinition ancestor = getParent();
-        while(ancestor.getParent() != null){
+        while (ancestor.getParent() != null) {
             ancestor = ancestor.getParent();
         }
         return ancestor;
     }
 
-    public void init(){
+    public void init() {
         countCreationInputParameters();
         linkFactoriesToParents();
         mapLocalFactoryNamesToIndex();
     }
 
-    protected void countCreationInputParameters(){
+    protected void countCreationInputParameters() {
         this.creationInputParameterCount = countCreationInputParameters(this);
     }
 
     private int countCreationInputParameters(FactoryDefinition definition) {
-        if(definition == null) return 0;
+        if (definition == null) return 0;
 
         int count = 0;
-        if(definition.isInputParameterFactory()){
+        if (definition.isInputParameterFactory()) {
             return Math.max(count, Integer.parseInt(definition.getIdentifier()));
         }
 
-        if(definition.getPhaseFactories() != null){
-            for(String phase : definition.getPhaseFactories().keySet()){
+        if (definition.getPhaseFactories() != null) {
+            for (String phase : definition.getPhaseFactories().keySet()) {
                 count = Math.max(count, countCreationInputParameters(definition.getPhaseFactories().get(phase)));
             }
         }
@@ -340,20 +339,20 @@ public class FactoryDefinition {
         return count;
     }
 
-    private int countCreationInputParameters(Collection<FactoryDefinition> definitions){
-        if(definitions == null) return 0;
+    private int countCreationInputParameters(Collection<FactoryDefinition> definitions) {
+        if (definitions == null) return 0;
         int count = 0;
-        for(FactoryDefinition definition : definitions){
+        for (FactoryDefinition definition : definitions) {
             count = Math.max(count, countCreationInputParameters(definition));
         }
         return count;
     }
 
-    protected void linkFactoriesToParents(){
+    protected void linkFactoriesToParents() {
         linkFactoryToParent(getIdentifierTargetFactory());
 
-        if(getPhaseFactories() != null){
-            for(String phase : getPhaseFactories().keySet()){
+        if (getPhaseFactories() != null) {
+            for (String phase : getPhaseFactories().keySet()) {
                 linkFactoriesToParents(getPhaseFactories().get(phase));
             }
         }
@@ -362,37 +361,37 @@ public class FactoryDefinition {
 
     }
 
-    private void linkFactoryToParent(FactoryDefinition child){
-        if(child == null) return;
+    private void linkFactoryToParent(FactoryDefinition child) {
+        if (child == null) return;
         child.setParent(this);
         child.init();
     }
 
-    private void linkFactoriesToParents(Collection<FactoryDefinition> children){
-        if(children == null) return;
-        for(FactoryDefinition child : children){
+    private void linkFactoriesToParents(Collection<FactoryDefinition> children) {
+        if (children == null) return;
+        for (FactoryDefinition child : children) {
             linkFactoryToParent(child);
         }
     }
 
-    protected void mapLocalFactoryNamesToIndex(){
-        Map<String, Integer> nameIndexMap = new HashMap<String, Integer>();
+    protected void mapLocalFactoryNamesToIndex() {
+        Map<String, Integer> nameIndexMap = new HashMap<>();
         nameIndexMap.put(".index", 0);
         mapLocalFactoryNamesToIndex(this, nameIndexMap);
         this.localFactoryNameIndexMap = nameIndexMap;
-        this.localFactoryNameTypeMap  = new HashMap<String, Class>();
+        this.localFactoryNameTypeMap = new HashMap<>();
     }
 
-    private void mapLocalFactoryNamesToIndex(FactoryDefinition definition, Map<String, Integer> nameIndexMap){
-        if(definition == null) return;
-        if(isNewNamedLocalProduct(definition, nameIndexMap)){
+    private void mapLocalFactoryNamesToIndex(FactoryDefinition definition, Map<String, Integer> nameIndexMap) {
+        if (definition == null) return;
+        if (isNewNamedLocalProduct(definition, nameIndexMap)) {
             mapNamedLocalProductToIndex(nameIndexMap, definition);
         }
 
         mapLocalFactoryNamesToIndex(definition.getIdentifierTargetFactory(), nameIndexMap);
 
-        if(definition.getPhaseFactories() != null){
-            for(String phase : definition.getPhaseFactories().keySet()){
+        if (definition.getPhaseFactories() != null) {
+            for (String phase : definition.getPhaseFactories().keySet()) {
                 mapLocalFactoryNamesToIndex(definition.getPhaseFactories().get(phase), nameIndexMap);
             }
         }
@@ -409,20 +408,20 @@ public class FactoryDefinition {
     }
 
     private boolean isNewNamedLocalProduct(FactoryDefinition definition, Map<String, Integer> nameIndexMap) {
-        return definition.getName() != null && nameIndexMap.get(definition.getName())==null;
+        return definition.getName() != null && nameIndexMap.get(definition.getName()) == null;
     }
 
-    private void mapLocalFactoryNamesToIndex(Collection<FactoryDefinition> definitions, Map<String, Integer> nameIndexMap){
-       if(definitions == null) return;
-       for(FactoryDefinition definition : definitions){
-           mapLocalFactoryNamesToIndex(definition, nameIndexMap);
-       }
+    private void mapLocalFactoryNamesToIndex(Collection<FactoryDefinition> definitions, Map<String, Integer> nameIndexMap) {
+        if (definitions == null) return;
+        for (FactoryDefinition definition : definitions) {
+            mapLocalFactoryNamesToIndex(definition, nameIndexMap);
+        }
     }
 
     public String toString() {
         StringBuilder builder = new StringBuilder();
-        if(getName() !=  null){
-            builder.append(getName() + " = " + getMode() + " ");
+        if (getName() != null) {
+            builder.append(getName()).append(" = ").append(getMode()).append(" ");
         } else {
             builder.append(getIdentifier());
         }

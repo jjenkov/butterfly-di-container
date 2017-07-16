@@ -1,49 +1,52 @@
 package com.jenkov.container.script;
 
-import java.util.List;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Deque;
+import java.util.List;
 
 /**
-  This pool should make sure that Token instances are reused throughout the parser.
-  This is done to avoid using String tokens, which apparently take up a lot of memory
-  during parsing, when many String tokens are created. To avoid this, tokens are reused
-  via this pool.
+ * This pool should make sure that Token instances are reused throughout the parser.
+ * This is done to avoid using String tokens, which apparently take up a lot of memory
+ * during parsing, when many String tokens are created. To avoid this, tokens are reused
+ * via this pool.
  */
 public class TokenPool {
 
-    protected List<Token> free  = new ArrayList<Token>();
-    protected List<Token> taken = new ArrayList<Token>();
+    protected final Deque<Token> free = new ArrayDeque<>();
+    protected final List<Token> taken = new ArrayList<>();
 
     protected int tokensTaken = 0;
-    protected int maxSize     = 0;
+    protected int maxSize = 0;
 
 
-    public Token take(){
+    public Token take() {
         this.tokensTaken++;
-        Token token = null;
-        if(free.size() > 0) {
-            token = free.remove(0);
+        Token token = free.poll();
+        if (token!=null) {
             token.reset();
         } else {
             token = new Token();
         }
         taken.add(token);
 
-        if(size() > maxSize){
+        if (size() > maxSize) {
             maxSize = size();
         }
-        
+
         return token;
     }
 
-    public void freeAll(){
+    public void freeAll() {
         free.addAll(taken);
         taken.clear();
     }
-    
-    public void correctIndexOfTakenTokens(int valueToSubstract){
-        for(Token token : this.taken){
-            if(token.length > 0){
+
+    public void correctIndexOfTakenTokens(int valueToSubstract) {
+        List<Token> taken1 = this.taken;
+        for (int i = 0, taken1Size = taken1.size(); i < taken1Size; i++) {
+            Token token = taken1.get(i);
+            if (token.length > 0) {
                 token.from -= valueToSubstract;
             }
         }

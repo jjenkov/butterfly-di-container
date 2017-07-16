@@ -29,7 +29,7 @@ public class UrlFactory extends LocalFactoryBase implements ILocalFactory {
             return new URL(urlSource.toString());
         } catch (MalformedURLException e) {
             throw new FactoryException(
-                    "UrlFactory", "INVALID_URL",                    
+                    "UrlFactory", "INVALID_URL",
                     "Error creating URL from object: " + urlSource, e);
         }
     }

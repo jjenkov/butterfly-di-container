@@ -7,12 +7,12 @@ import com.jenkov.container.itf.factory.ILocalFactory;
  */
 public class LocalProductConsumerFactory extends LocalFactoryBase implements ILocalFactory {
 
-    protected int   index      = 0;
+    protected int index = 0;
     protected Class returnType = null;
 
     public LocalProductConsumerFactory(Class returnType, int index) {
         this.returnType = returnType;
-        this.index      = index;
+        this.index = index;
     }
 
     public int getIndex() {

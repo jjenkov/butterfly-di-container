@@ -8,20 +8,20 @@ import java.util.Map;
 /**
  * todo fix phase execution on local products
  *
-* @author Jakob Jenkov - Copyright 2004-2006 Jenkov Development
+ * @author Jakob Jenkov - Copyright 2004-2006 Jenkov Development
  */
 public class GlobalThreadSingletonFactory extends GlobalFactoryBase implements IGlobalFactory {
 
-    public Map<Thread, Object[]> localProductMap = new HashMap<Thread, Object[]>();
+    public final Map<Thread, Object[]> localProductMap = new HashMap<>();
 
     public Class getReturnType() {
         return getLocalInstantiationFactory().getReturnType();
     }
 
-    public synchronized Object instance(Object ... parameters) {
+    public synchronized Object instance(Object... parameters) {
         Thread callingThread = Thread.currentThread();
         Object[] threadLocalProducts = this.localProductMap.get(callingThread);
-        if(threadLocalProducts != null) return threadLocalProducts[0];
+        if (threadLocalProducts != null) return threadLocalProducts[0];
 
         threadLocalProducts = new Object[getLocalProductCount()];
         threadLocalProducts[0] = getLocalInstantiationFactory().instance(parameters, threadLocalProducts);
@@ -32,8 +32,8 @@ public class GlobalThreadSingletonFactory extends GlobalFactoryBase implements I
     }
 
 
-    public Object[] execPhase(String phase, Object ... parameters) {
-        for(Thread thread : this.localProductMap.keySet()){
+    public Object[] execPhase(String phase, Object... parameters) {
+        for (Thread thread : this.localProductMap.keySet()) {
             Object[] threadLocalProducts = this.localProductMap.get(thread);
             execPhase(phase, parameters, threadLocalProducts);
         }
@@ -41,7 +41,7 @@ public class GlobalThreadSingletonFactory extends GlobalFactoryBase implements I
     }
 
     public String toString() {
-        return "<GlobalThreadSingletonFactory> --> "+ getLocalInstantiationFactory().toString();
+        return "<GlobalThreadSingletonFactory> --> " + getLocalInstantiationFactory().toString();
     }
 
 }

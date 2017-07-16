@@ -1,8 +1,8 @@
 package com.jenkov.container.script;
 
 import com.jenkov.container.Container;
-import com.jenkov.container.TestProduct;
 import com.jenkov.container.IContainer;
+import com.jenkov.container.TestProduct;
 import junit.framework.TestCase;
 
 /**
@@ -10,7 +10,7 @@ import junit.framework.TestCase;
  */
 public class GlobalFlyweightTest extends TestCase {
 
-    public void testInstance_using_string(){
+    public void testInstance_using_string() {
         IContainer container = new Container();
         ScriptFactoryBuilder builder = new ScriptFactoryBuilder(container);
 
@@ -24,7 +24,7 @@ public class GlobalFlyweightTest extends TestCase {
         assertNotSame(test1, test2);
     }
 
-    public void testInstance(){
+    public void testInstance() {
         IContainer container = new Container();
         ScriptFactoryBuilder builder = new ScriptFactoryBuilder(container);
 
@@ -37,7 +37,7 @@ public class GlobalFlyweightTest extends TestCase {
 
         builder.addFactory(
                 "bean2 = 1F com.jenkov.container.TestProduct();  " +
-                "     config{ $bean2.setValue1(\"value1\"); } ");
+                        "     config{ $bean2.setValue1(\"value1\"); } ");
 
         TestProduct product2 = (TestProduct) container.instance("bean2", "1");
         assertSame(product2, container.instance("bean2", "1"));
@@ -48,8 +48,8 @@ public class GlobalFlyweightTest extends TestCase {
 
         builder.addFactory(
                 "bean3 = 1F com.jenkov.container.TestProduct();  " +
-                "     config { $bean3.setValue1(\"value1\"); } " +
-                "     myPhase{ $bean3.setValue2(\"value2\"); }"
+                        "     config { $bean3.setValue1(\"value1\"); } " +
+                        "     myPhase{ $bean3.setValue2(\"value2\"); }"
         );
 
         TestProduct product3 = (TestProduct) container.instance("bean3", "1");
@@ -66,9 +66,9 @@ public class GlobalFlyweightTest extends TestCase {
 
         builder.addFactory(
                 "bean4 = 1F com.jenkov.container.TestProduct();  " +
-                "     config { $bean4.setValue1(\"value1\"); } " +
-                "     myPhase{ $bean4.setValue2(\"value2\"); } " +
-                "     dispose{ $bean4.setValue2(\"disposed\");}"
+                        "     config { $bean4.setValue1(\"value1\"); } " +
+                        "     myPhase{ $bean4.setValue2(\"value2\"); } " +
+                        "     dispose{ $bean4.setValue2(\"disposed\");}"
         );
 
         TestProduct product4 = (TestProduct) container.instance("bean4", "1");

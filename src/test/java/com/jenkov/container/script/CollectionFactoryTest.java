@@ -5,32 +5,32 @@ import com.jenkov.container.IContainer;
 import com.jenkov.container.TestProduct;
 import junit.framework.TestCase;
 
-import java.util.List;
-import java.util.Iterator;
 import java.lang.reflect.Array;
+import java.util.Iterator;
+import java.util.List;
 
 /**
 
  */
 public class CollectionFactoryTest extends TestCase {
 
-    public static int[] asIntArray(Object ... numbers){
+    public static int[] asIntArray(Object... numbers) {
         int[] intArray = new int[numbers.length];
-        for(int i=0; i<intArray.length; i++){
+        for (int i = 0; i < intArray.length; i++) {
             intArray[i] = (Integer) numbers[i];
         }
         return intArray;
     }
 
-    public static int add(int ... numbers){
+    public static int add(int... numbers) {
         int result = 0;
-        for(int number : numbers) result += number;
+        for (int number : numbers) result += number;
         return result;
     }
 
-    public void testPrimitiveArray(){
-        IContainer           container = new Container();
-        ScriptFactoryBuilder builder   = new ScriptFactoryBuilder(container);
+    public void testPrimitiveArray() {
+        IContainer container = new Container();
+        ScriptFactoryBuilder builder = new ScriptFactoryBuilder(container);
         builder.addFactory("test = * com.jenkov.container.script.CollectionFactoryTest.add([$0, $1]); ");
 
         int result = (Integer) container.instance("test", 10, 20);
@@ -45,9 +45,9 @@ public class CollectionFactoryTest extends TestCase {
 
     }
 
-    public void testCollectionCasting(){
-        IContainer           container = new Container();
-        ScriptFactoryBuilder builder   = new ScriptFactoryBuilder(container);
+    public void testCollectionCasting() {
+        IContainer container = new Container();
+        ScriptFactoryBuilder builder = new ScriptFactoryBuilder(container);
 
         assertEquals(TestProduct[].class, Array.newInstance(TestProduct.class, 0).getClass());
 
@@ -66,7 +66,7 @@ public class CollectionFactoryTest extends TestCase {
         builder.addFactory("bean2 = * com.jenkov.container.TestProduct().setArray((java.lang.String[])['0','1','2','3']); ");
         TestProduct product2 = (TestProduct) container.instance("bean2");
 
-        assertEquals("0", product2.getArray1()[0] );
+        assertEquals("0", product2.getArray1()[0]);
         assertEquals("1", product2.getArray1()[1]);
         assertEquals("2", product2.getArray1()[2]);
         assertEquals("3", product2.getArray1()[3]);
@@ -86,9 +86,9 @@ public class CollectionFactoryTest extends TestCase {
     }
 
 
-    public void testIntegerCollection(){
-        IContainer           container = new Container();
-        ScriptFactoryBuilder builder   = new ScriptFactoryBuilder(container);
+    public void testIntegerCollection() {
+        IContainer container = new Container();
+        ScriptFactoryBuilder builder = new ScriptFactoryBuilder(container);
 
         builder.addFactory("bean = * com.jenkov.container.TestProduct().setIntegerList([0,1,2,3]); ");
 
@@ -102,12 +102,12 @@ public class CollectionFactoryTest extends TestCase {
 
     }
 
-    public void testUrlCollection(){
-        IContainer           container = new Container();
-        ScriptFactoryBuilder builder   = new ScriptFactoryBuilder(container);
+    public void testUrlCollection() {
+        IContainer container = new Container();
+        ScriptFactoryBuilder builder = new ScriptFactoryBuilder(container);
 
         builder.addFactory("bean = * com.jenkov.container.TestProduct().setUrlArray(" +
-                           "   ['http://butterfly.jenkov.com', 'http://tutorials.jenkov.com']); ");
+                "   ['http://butterfly.jenkov.com', 'http://tutorials.jenkov.com']); ");
 
         TestProduct product = (TestProduct) container.instance("bean");
         assertEquals("http://butterfly.jenkov.com", product.getUrlArray()[0].toString());
@@ -115,7 +115,7 @@ public class CollectionFactoryTest extends TestCase {
 
 
         builder.addFactory("bean2 = * com.jenkov.container.TestProduct().setUrlList(" +
-                           "   ['http://butterfly.jenkov.com', 'http://tutorials.jenkov.com']); ");
+                "   ['http://butterfly.jenkov.com', 'http://tutorials.jenkov.com']); ");
 
         TestProduct product2 = (TestProduct) container.instance("bean2");
         assertEquals("http://butterfly.jenkov.com", product2.getUrlList().get(0).toString());
@@ -123,12 +123,12 @@ public class CollectionFactoryTest extends TestCase {
 
     }
 
-    public void testSetCollection(){
-        IContainer           container = new Container();
-        ScriptFactoryBuilder builder   = new ScriptFactoryBuilder(container);
+    public void testSetCollection() {
+        IContainer container = new Container();
+        ScriptFactoryBuilder builder = new ScriptFactoryBuilder(container);
 
         builder.addFactory("bean = * com.jenkov.container.TestProduct().setSet(" +
-                           "   ['value1', 'value2']); ");
+                "   ['value1', 'value2']); ");
 
         TestProduct product = (TestProduct) container.instance("bean");
         Iterator iterator = product.getSet().iterator();
@@ -136,12 +136,12 @@ public class CollectionFactoryTest extends TestCase {
         assertEquals("value1", iterator.next());
     }
 
-    public void testArrayCollection(){
-        IContainer           container = new Container();
-        ScriptFactoryBuilder builder   = new ScriptFactoryBuilder(container);
+    public void testArrayCollection() {
+        IContainer container = new Container();
+        ScriptFactoryBuilder builder = new ScriptFactoryBuilder(container);
 
         builder.addFactory("bean = * com.jenkov.container.TestProduct().setStringArray(" +
-                           "  ['value1', 'value2']); ");
+                "  ['value1', 'value2']); ");
 
         TestProduct product = (TestProduct) container.instance("bean");
         assertEquals("value1", product.getStringArray()[0]);
@@ -150,9 +150,9 @@ public class CollectionFactoryTest extends TestCase {
         container.instance("bean");
     }
 
-    public void testInjectedListCollection(){
-        IContainer           container = new Container();
-        ScriptFactoryBuilder builder   = new ScriptFactoryBuilder(container);
+    public void testInjectedListCollection() {
+        IContainer container = new Container();
+        ScriptFactoryBuilder builder = new ScriptFactoryBuilder(container);
 
         builder.addFactory("bean = * com.jenkov.container.TestProduct().setList(['value1', 'value2']).setValue1('2'); ");
 
@@ -163,9 +163,9 @@ public class CollectionFactoryTest extends TestCase {
     }
 
 
-    public void testRawListCollection(){
-        IContainer           container = new Container();
-        ScriptFactoryBuilder builder   = new ScriptFactoryBuilder(container);
+    public void testRawListCollection() {
+        IContainer container = new Container();
+        ScriptFactoryBuilder builder = new ScriptFactoryBuilder(container);
 
         builder.addFactory("bean = * [com.jenkov.container.TestProduct().setValue1(\"value1\"), com.jenkov.container.TestProduct().setValue1(\"value2\")]; ");
 
