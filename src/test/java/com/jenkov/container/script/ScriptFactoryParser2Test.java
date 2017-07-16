@@ -1,4 +1,3 @@
-
 package com.jenkov.container.script;
 
 import junit.framework.TestCase;
@@ -11,9 +10,9 @@ import java.util.List;
  */
 public class ScriptFactoryParser2Test extends TestCase {
 
-    ScriptFactoryParser parser        = new ScriptFactoryParser();
+    final ScriptFactoryParser parser = new ScriptFactoryParser();
 
-    public void testParseDecimalNumber(){
+    public void testParseDecimalNumber() {
         String inputString = "decimal = * 1.45;";
         ParserInput input = parserInput(inputString);
         FactoryDefinition definition = parser.parseFactory(input);
@@ -43,7 +42,7 @@ public class ScriptFactoryParser2Test extends TestCase {
         assertEquals("0", inputParamDefinition.getIdentifier());
     }
 
-    public void testParseMode(){
+    public void testParseMode() {
         String inputString = "test3 = * com.jenkov.container.TestProduct.createProduct(test).getInternalProduct();";
         ParserInput input = parserInput(inputString);
 
@@ -78,10 +77,10 @@ public class ScriptFactoryParser2Test extends TestCase {
     public void testParseFactory() throws IOException {
         String inputString =
                 "name = * com.jenkov.container.script.SomeFactoryProduct(other, someOther);" +
-                "   config{ name.setText(\"someText\");" +
-                "           name.setName(\"someId\");" +
-                "   }" +
-                "   dispose{$name.dispose();}";
+                        "   config{ name.setText(\"someText\");" +
+                        "           name.setName(\"someId\");" +
+                        "   }" +
+                        "   dispose{$name.dispose();}";
 
         ParserInput input = parserInput(inputString);
 
@@ -89,7 +88,7 @@ public class ScriptFactoryParser2Test extends TestCase {
         assertEquals("name", definition.getName());
         assertEquals("com.jenkov.container.script.SomeFactoryProduct", definition.getIdentifierOwnerClass());
         assertEquals(2, definition.getInstantiationArgFactories().size());
-        assertEquals("other"    , definition.getInstantiationArgFactories().get(0).getIdentifier());
+        assertEquals("other", definition.getInstantiationArgFactories().get(0).getIdentifier());
         assertEquals("someOther", definition.getInstantiationArgFactories().get(1).getIdentifier());
 
 //        assertEquals(2, definition.getConfigurationFactories().size());
@@ -109,7 +108,7 @@ public class ScriptFactoryParser2Test extends TestCase {
 
     public void testParseConfigFactoryChains() throws IOException {
         String inputString = "smtp.setName(); \n" +
-                             "com.jenkov.container.TestProduct.config(smtp); }";
+                "com.jenkov.container.TestProduct.config(smtp); }";
 
         ParserInput input = parserInput(inputString);
 
@@ -129,11 +128,11 @@ public class ScriptFactoryParser2Test extends TestCase {
 
     public void testParseFactoryChainList() throws IOException {
         String expectedClassName = "com.jenkov.container.script.SomeFactoryProduct";
-        String inputString       = "com.jenkov.container.TestProduct, " +
-                                   "com.jenkov.container.script.SomeFactoryProduct()," +
-                                   "someId)";
+        String inputString = "com.jenkov.container.TestProduct, " +
+                "com.jenkov.container.script.SomeFactoryProduct()," +
+                "someId)";
 
-        ParserInput input       = parserInput(inputString);
+        ParserInput input = parserInput(inputString);
         List<FactoryDefinition> definitions = parser.parseFactoryChainList(input);
         assertEquals(Token.PARENTHESIS_RIGHT, input.nextToken());
         assertEquals(3, definitions.size());
@@ -154,7 +153,7 @@ public class ScriptFactoryParser2Test extends TestCase {
         String inputString = null;
 
         inputString = "com.jenkov.container.script.SomeFactoryProduct.CONSTANT.method().OTHER.otherMethod();";
-        ParserInput input      = parserInput(inputString);
+        ParserInput input = parserInput(inputString);
         FactoryDefinition definition = parser.parseFactoryChain(input);
         assertNotNull(definition);
 
@@ -181,7 +180,7 @@ public class ScriptFactoryParser2Test extends TestCase {
 
 
         inputString = "com.jenkov.container.script.SomeFactoryProduct;";
-        input      = parserInput(inputString);
+        input = parserInput(inputString);
         definition = parser.parseFactoryChain(input);
         assertNotNull(definition);
         assertEquals(expectedClassName, definition.getIdentifier());
@@ -197,38 +196,38 @@ public class ScriptFactoryParser2Test extends TestCase {
 
 
         inputString = "com.jenkov.container.script.SomeFactoryProduct;";
-        ParserInput input      = parserInput(inputString);
+        ParserInput input = parserInput(inputString);
         FactoryDefinition definition = parser.parseHeadFactory(input, null);
         assertNotNull(definition);
         assertEquals(expectedClassName, definition.getIdentifier());
         assertEquals(Token.SEMI_COLON, input.nextToken());
 
         inputString = "com.jenkov.container.script.SomeFactoryProduct(other, someOther);";
-        input       = parserInput(inputString);
-        definition  = parser.parseHeadFactory(input, null);
+        input = parserInput(inputString);
+        definition = parser.parseHeadFactory(input, null);
         assertNotNull(definition);
         assertEquals(expectedClassName, definition.getIdentifierOwnerClass());
         assertEquals(Token.SEMI_COLON, input.nextToken());
 
         inputString = "com.jenkov.container.script.SomeFactoryProduct.CONSTANT;";
-        input       = parserInput(inputString);
-        definition  = parser.parseHeadFactory(input, null);
+        input = parserInput(inputString);
+        definition = parser.parseHeadFactory(input, null);
         assertNotNull(definition);
         assertEquals(expectedClassName, definition.getIdentifierOwnerClass());
         assertEquals("CONSTANT", definition.getIdentifier());
         assertEquals(Token.SEMI_COLON, input.nextToken());
 
         inputString = "com.jenkov.container.script.SomeFactoryProduct.CONSTANT.method()";
-        input       = parserInput(inputString);
-        definition  = parser.parseHeadFactory(input, null);
+        input = parserInput(inputString);
+        definition = parser.parseHeadFactory(input, null);
         assertNotNull(definition);
         assertEquals(expectedClassName, definition.getIdentifierOwnerClass());
         assertEquals("CONSTANT", definition.getIdentifier());
         assertEquals(Token.DOT, input.nextToken());
 
         inputString = "com.jenkov.container.script.SomeFactoryProduct.method()";
-        input       = parserInput(inputString);
-        definition  = parser.parseHeadFactory(input, null);
+        input = parserInput(inputString);
+        definition = parser.parseHeadFactory(input, null);
         assertNotNull(definition);
         assertEquals(expectedClassName, definition.getIdentifierOwnerClass());
         assertEquals("method", definition.getIdentifier());
@@ -236,7 +235,7 @@ public class ScriptFactoryParser2Test extends TestCase {
 
     }
 
-    public void testParseClass() throws IOException{
+    public void testParseClass() throws IOException {
         String className = null;
         ParserInput input = parserInput("com.jenkov.Fun");
 
@@ -244,7 +243,7 @@ public class ScriptFactoryParser2Test extends TestCase {
         assertNull(className);
         assertEquals(new Token("com"), input.nextToken());
 
-        String inputString       = "com.jenkov.container.script.SomeFactoryProduct";
+        String inputString = "com.jenkov.container.script.SomeFactoryProduct";
         String expectedClassName = "com.jenkov.container.script.SomeFactoryProduct";
         input = parserInput(inputString);
         className = parser.parseClass(input);

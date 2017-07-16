@@ -1,12 +1,12 @@
 package com.jenkov.container.script;
 
-import junit.framework.TestCase;
-import com.jenkov.container.IContainer;
 import com.jenkov.container.Container;
+import com.jenkov.container.IContainer;
 import com.jenkov.container.TestProductCasting;
+import junit.framework.TestCase;
 
-import java.net.URL;
 import java.net.MalformedURLException;
+import java.net.URL;
 
 /**
 
@@ -24,7 +24,7 @@ public class ParameterCastingTest extends TestCase {
         assertNull(product.getValue2());
         assertEquals(2, product.getValue3());
 
-        
+
         builder.addFactory("bean2 = * com.jenkov.container.TestProductCasting().setValue((String) 2);");
         product = (TestProductCasting) container.instance("bean2");
 
@@ -39,7 +39,6 @@ public class ParameterCastingTest extends TestCase {
         assertNull(product.getValue1());
         assertEquals(new URL("http://jenkov.com"), product.getValue2());
         assertEquals(-1, product.getValue3());
-
 
 
     }

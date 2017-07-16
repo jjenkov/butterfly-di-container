@@ -19,7 +19,7 @@ public class BooleanObjectFactory extends LocalFactoryBase implements ILocalFact
     }
 
     public Object instance(Object[] parameters, Object[] localProducts) {
-        return new Boolean(this.sourceFactory.instance(parameters, localProducts).toString());
+        return Boolean.valueOf(this.sourceFactory.instance(parameters, localProducts).toString());
     }
 
 }

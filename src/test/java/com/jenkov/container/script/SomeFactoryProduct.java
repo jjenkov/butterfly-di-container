@@ -8,7 +8,7 @@ public class SomeFactoryProduct {
     protected String arg1 = null;
     protected String arg2 = null;
 
-    public SomeFactoryProduct(String arg1){
+    public SomeFactoryProduct(String arg1) {
         this.arg1 = arg1;
     }
 
@@ -33,7 +33,7 @@ public class SomeFactoryProduct {
         this.arg2 = arg2;
     }
 
-    public void dispose(){
-        
+    public void dispose() {
+
     }
 }

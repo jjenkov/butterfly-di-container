@@ -2,9 +2,9 @@ package com.jenkov.container.script;
 
 import junit.framework.TestCase;
 
-import java.io.StringReader;
-import java.io.Reader;
 import java.io.IOException;
+import java.io.Reader;
+import java.io.StringReader;
 
 /**
  * @author Jakob Jenkov - Copyright 2004-2006 Jenkov Development
@@ -16,14 +16,14 @@ public class ScriptTokenizerInputBufferTest extends TestCase {
         Reader reader = new StringReader("0123456789ABCDEFGHIJ");
         ScriptTokenizerInputBuffer buffer = new ScriptTokenizerInputBuffer(reader, 10);
 
-        assertEquals( 0, buffer.index);
+        assertEquals(0, buffer.index);
         assertEquals(10, buffer.endIndex);
-        assertEquals( 0, buffer.factoryStartIndex);
+        assertEquals(0, buffer.factoryStartIndex);
 
         buffer.factoryStart();
-        assertEquals( 0, buffer.index);
+        assertEquals(0, buffer.index);
         assertEquals(10, buffer.endIndex);
-        assertEquals( 0, buffer.factoryStartIndex);
+        assertEquals(0, buffer.factoryStartIndex);
 
         assertEquals('0', buffer.read());
         assertEquals('1', buffer.read());

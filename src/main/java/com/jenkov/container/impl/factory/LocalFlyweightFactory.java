@@ -11,7 +11,7 @@ import java.util.Map;
 public class LocalFlyweightFactory extends LocalFactoryBase implements ILocalFactory {
 
     public ILocalFactory sourceFactory = null;
-    public Map<FlyweightKey, Object> instances = new HashMap<FlyweightKey, Object>();
+    public final Map<FlyweightKey, Object> instances = new HashMap<>();
 
 
     public LocalFlyweightFactory(ILocalFactory sourceFactory) {
@@ -28,16 +28,11 @@ public class LocalFlyweightFactory extends LocalFactoryBase implements ILocalFac
 
     public synchronized Object instance(Object[] parameters, Object[] localProducts) {
         FlyweightKey key = new FlyweightKey(parameters);
-        Object instance = this.instances.get(key);
-        if(instance == null){
-            instance = this.sourceFactory.instance(parameters, localProducts);
-            this.instances.put(key, instance);
-        }
-        return instance;
+        return this.instances.computeIfAbsent(key, k -> this.sourceFactory.instance(parameters, localProducts));
     }
 
     public String toString() {
-        return "<LocalFlyweightFactory> --> "+ this.sourceFactory.toString();
+        return "<LocalFlyweightFactory> --> " + this.sourceFactory.toString();
     }
 
 }

@@ -2,15 +2,15 @@ package com.jenkov.container.script;
 
 import junit.framework.TestCase;
 
-import java.io.IOException;
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 
 /**
  * @author Jakob Jenkov - Copyright 2004-2006 Jenkov Development
  */
 public class ParserInput2Test extends TestCase {
 
-    String inputString = "A man came through the door, and {he laughed)\n" +
+    final String inputString = "A man came through the door, and {he laughed)\n" +
             "Then a (woman came} too, and ; was a real annoying incident\n" +
             "   \n" +
             "\n" +
@@ -61,7 +61,7 @@ public class ParserInput2Test extends TestCase {
     public void testPushPopMarks() throws IOException {
         ParserInput input = new ParserInput(new ByteArrayInputStream(inputString.getBytes()));
 
-        assertParse(input, "A",1, 2);
+        assertParse(input, "A", 1, 2);
         assertFalse(input.hasMark());
 
         input.mark();
@@ -101,7 +101,7 @@ public class ParserInput2Test extends TestCase {
         assertParse(input, "through", 1, 19);
     }
 
-    private void assertParse(ParserInput input, String expectedValue, int lineNo, int charNo) throws IOException {
+    private void assertParse(ParserInput input, String expectedValue, int lineNo, int charNo) {
         Token nextToken = input.nextToken();
 
         Token expected = new Token();

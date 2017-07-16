@@ -1,10 +1,8 @@
 package com.jenkov.container;
 
-import com.jenkov.container.IContainer;
-
+import java.net.URL;
 import java.util.List;
 import java.util.Set;
-import java.net.URL;
 
 /**
  * @author Jakob Jenkov - Copyright 2004-2006 Jenkov Development
@@ -12,51 +10,35 @@ import java.net.URL;
 public class TestProduct {
 
     public static final String FIELD_VALUE = "fieldValue";
-
+    public static int staticInt = -1;
+    public static IContainer staticContainer = null;
+    public static ICustomFactory staticFactory = null;
+    public int instanceInt = -1;
+    public IContainer container = null;
+    public ICustomFactory factory = null;
+    public final List<Integer> genericListInt = null;
+    public List<URL> genericListUrl = null;
+    public final List normalList = null;
     protected TestProduct internalProduct = null;
-    protected String      value1          = null;
-    protected String      value2          = null;
-    protected double      decimal         = 0;
-
-    protected String[]    stringArray     = null;
-    protected List        list            = null;
-    protected Set         set             = null;
-    protected URL[]       urlArray        = null;
-    protected List<URL>   urlList         = null;
-    protected List<Integer> integerList   = null;
-
-    protected String[]      array1 = null;
-    protected Integer[]     array2 = null;
+    protected String value1 = null;
+    protected String value2 = null;
+    protected double decimal = 0;
+    protected String[] stringArray = null;
+    protected List list = null;
+    protected Set set = null;
+    protected URL[] urlArray = null;
+    protected List<URL> urlList = null;
+    protected List<Integer> integerList = null;
+    protected String[] array1 = null;
+    protected Integer[] array2 = null;
     protected TestProduct[] array3 = null;
+    protected Class classValue = null;
 
-    protected Class       classValue      = null;
-
-    public        int instanceInt = -1;
-    public static int staticInt   = -1;
-
-    public IContainer     container = null;
-    public ICustomFactory factory   = null;
-
-    public static IContainer     staticContainer = null;
-    public static ICustomFactory staticFactory   = null;
-
-    public List<Integer> genericListInt = null;
-    public List<URL>     genericListUrl = null;
-    public List          normalList     = null;
-
-
-    public static TestProduct createProduct(){
-        return new TestProduct();
-    }
-
-    public static TestProduct createProduct(TestProduct product){
-        return new TestProduct(product);
-    }
 
     public TestProduct() {
     }
 
-    public TestProduct(TestProduct product){
+    public TestProduct(TestProduct product) {
         this.internalProduct = product;
     }
 
@@ -66,6 +48,22 @@ public class TestProduct {
 
     public TestProduct(IContainer container) {
         this.container = container;
+    }
+
+    public static TestProduct createProduct() {
+        return new TestProduct();
+    }
+
+    public static TestProduct createProduct(TestProduct product) {
+        return new TestProduct(product);
+    }
+
+    public static void setStaticContainer(IContainer staticContainer) {
+        TestProduct.staticContainer = staticContainer;
+    }
+
+    public static void setStaticFactory(ICustomFactory staticFactory) {
+        TestProduct.staticFactory = staticFactory;
     }
 
     public TestProduct getInternalProduct() {
@@ -88,17 +86,17 @@ public class TestProduct {
         this.value2 = value2;
     }
 
-    public void setValues(String value1, Object value2){
+    public void setValues(String value1, Object value2) {
         this.value1 = value1;
         this.value2 = value2.toString();
     }
 
-    public void setValues(String value1, String value2){
+    public void setValues(String value1, String value2) {
         this.value1 = value1;
         this.value2 = value2;
     }
 
-    public void setIntValue(int lengthOfString){
+    public void setIntValue(int lengthOfString) {
         //System.out.println("length: " + lengthOfString);
     }
 
@@ -124,14 +122,6 @@ public class TestProduct {
 
     public void setContainer(IContainer container) {
         this.container = container;
-    }
-
-    public static void setStaticContainer(IContainer staticContainer) {
-        TestProduct.staticContainer = staticContainer;
-    }
-
-    public static void setStaticFactory(ICustomFactory staticFactory) {
-        TestProduct.staticFactory = staticFactory;
     }
 
     public String[] getStringArray() {
@@ -205,5 +195,5 @@ public class TestProduct {
     public void setArray(TestProduct[] array3) {
         this.array3 = array3;
     }
-    
+
 }

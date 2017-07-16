@@ -14,7 +14,7 @@ public class InputAdaptingFactory extends LocalFactoryBase implements ILocalFact
     List<ILocalFactory> inputFactories = null;
 
     public InputAdaptingFactory(IGlobalFactory targetFactory, List<ILocalFactory> inputFactories) {
-        this.targetFactory  = targetFactory;
+        this.targetFactory = targetFactory;
         this.inputFactories = inputFactories;
     }
 
@@ -24,7 +24,7 @@ public class InputAdaptingFactory extends LocalFactoryBase implements ILocalFact
 
     public Object instance(Object[] parameters, Object[] localProducts) {
         Object[] adaptedParameters = new Object[inputFactories.size()];
-        for(int i=0; i<adaptedParameters.length; i++){
+        for (int i = 0; i < adaptedParameters.length; i++) {
             adaptedParameters[i] = this.inputFactories.get(i).instance(parameters, localProducts);
         }
         //here we do NOT want to pass the localProducts on to the global factory called.

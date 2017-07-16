@@ -8,10 +8,10 @@ import com.jenkov.container.itf.factory.ILocalFactory;
 public class LocalProductProducerFactory extends LocalFactoryBase implements ILocalFactory {
 
     protected ILocalFactory instantiationFactory = null;
-    protected int           index                = 0;
+    protected int index = 0;
 
     public LocalProductProducerFactory(ILocalFactory localProductFactory, int index) {
-        if(localProductFactory == null){
+        if (localProductFactory == null) {
             throw new IllegalArgumentException("Local product factory cannot be null");
         }
         this.instantiationFactory = localProductFactory;

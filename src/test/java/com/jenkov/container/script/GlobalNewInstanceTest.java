@@ -10,7 +10,7 @@ import junit.framework.TestCase;
  */
 public class GlobalNewInstanceTest extends TestCase {
 
-    public void testInstance(){
+    public void testInstance() {
         IContainer container = new Container();
         ScriptFactoryBuilder builder = new ScriptFactoryBuilder(container);
 
@@ -25,7 +25,7 @@ public class GlobalNewInstanceTest extends TestCase {
 
         builder.addFactory(
                 "bean2 = * com.jenkov.container.TestProduct();" +
-                "    config{ $bean2.setValue1(\"value1\"); }");
+                        "    config{ $bean2.setValue1(\"value1\"); }");
 
         TestProduct product2 = (TestProduct) container.instance("bean2");
         assertEquals("value1", product2.getValue1());

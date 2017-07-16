@@ -4,15 +4,13 @@ import com.jenkov.container.itf.factory.FactoryException;
 import com.jenkov.container.itf.factory.ILocalFactory;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.Type;
-import java.lang.reflect.ParameterizedType;
 
 /**
  * @author Jakob Jenkov - Copyright 2005 Jenkov Development
  */
 public class FieldFactory extends LocalFactoryBase implements ILocalFactory {
-    protected Field    field             = null;
-    protected Object   fieldOwner        = null;
+    protected Field field = null;
+    protected Object fieldOwner = null;
     protected ILocalFactory fieldOwnerFactory = null;
 
 
@@ -37,7 +35,7 @@ public class FieldFactory extends LocalFactoryBase implements ILocalFactory {
 
     public Object instance(Object[] parameters, Object[] localProducts) {
         try {
-            if(this.fieldOwnerFactory != null){
+            if (this.fieldOwnerFactory != null) {
                 return this.field.get(this.fieldOwnerFactory.instance(parameters, localProducts));
             }
             return this.field.get(this.fieldOwner);

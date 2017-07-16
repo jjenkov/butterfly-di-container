@@ -8,20 +8,20 @@ import java.net.URL;
 public class TestProductCasting {
 
     protected String value1 = null;
-    protected URL    value2 = null;
-    protected int    value3 = -1;
+    protected URL value2 = null;
+    protected int value3 = -1;
 
 
-    public void setValue(String value){
+    public void setValue(String value) {
         this.value1 = value;
     }
 
 
-    public void setValue(URL url){
+    public void setValue(URL url) {
         this.value2 = url;
     }
 
-    public void setValue(int value){
+    public void setValue(int value) {
         this.value3 = value;
     }
 

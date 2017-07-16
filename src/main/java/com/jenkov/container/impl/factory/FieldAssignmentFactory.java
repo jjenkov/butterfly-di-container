@@ -10,15 +10,15 @@ import java.lang.reflect.Field;
  */
 public class FieldAssignmentFactory extends LocalFactoryBase implements ILocalFactory {
 
-    protected Field          field                        = null;
-    protected Class          fieldOwningClass             = null;
-    protected ILocalFactory       fieldAssignmentTargetFactory = null;
-    protected ILocalFactory       assignmentValueFactory       = null;
+    protected Field field = null;
+    protected Class fieldOwningClass = null;
+    protected ILocalFactory fieldAssignmentTargetFactory = null;
+    protected ILocalFactory assignmentValueFactory = null;
 
     public FieldAssignmentFactory(Field field, ILocalFactory assignmentTargetFactory, ILocalFactory assignmentValueFactory) {
-        this.field                        = field;
+        this.field = field;
         this.fieldAssignmentTargetFactory = assignmentTargetFactory;
-        this.assignmentValueFactory       = assignmentValueFactory;
+        this.assignmentValueFactory = assignmentValueFactory;
     }
 
     public FieldAssignmentFactory(Field field, Class fieldOwningClass, ILocalFactory assignmentValueFactory) {
@@ -35,16 +35,16 @@ public class FieldAssignmentFactory extends LocalFactoryBase implements ILocalFa
     public Object instance(Object[] parameters, Object[] localProducts) {
         Object value = this.assignmentValueFactory.instance(parameters, localProducts);
         try {
-            if(isInstanceField()) {
+            if (isInstanceField()) {
                 field.set(this.fieldAssignmentTargetFactory.instance(parameters, localProducts), value);
                 return value;
             }
 
             field.set(null, value);
             return value;
-        } catch (Throwable t){
+        } catch (Throwable t) {
             throw new FactoryException(
-                    "FieldAssignmentFactory", "ERROR_FLYWEIGHT_KEY_PARAMETER",                    
+                    "FieldAssignmentFactory", "ERROR_FLYWEIGHT_KEY_PARAMETER",
                     "Error setting field value " + value + " on field " + this.field, t);
         }
     }
@@ -58,7 +58,7 @@ public class FieldAssignmentFactory extends LocalFactoryBase implements ILocalFa
         builder.append("<FieldAssignmentFactory: ");
         builder.append(field);
         builder.append("> --> ");
-        if(isInstanceField()){
+        if (isInstanceField()) {
             builder.append(this.fieldAssignmentTargetFactory);
         } else {
             builder.append("<");

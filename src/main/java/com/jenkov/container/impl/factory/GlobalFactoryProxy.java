@@ -27,17 +27,17 @@ public class GlobalFactoryProxy implements IGlobalFactory {
         return this.delegateFactory.getReturnType();
     }
 
-    public Object instance(Object ... parameters) {
+    public Object instance(Object... parameters) {
         IGlobalFactory localDelegateFactory = null;
-        synchronized(this){
+        synchronized (this) {
             localDelegateFactory = this.delegateFactory;
         }
         return localDelegateFactory.instance(parameters);
     }
 
-    public Object[] execPhase(String phase, Object ... parameters) {
+    public Object[] execPhase(String phase, Object... parameters) {
         IGlobalFactory localDelegateFactory = null;
-        synchronized(this){
+        synchronized (this) {
             localDelegateFactory = this.delegateFactory;
         }
         return localDelegateFactory.execPhase(phase, parameters);

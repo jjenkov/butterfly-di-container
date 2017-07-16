@@ -1,44 +1,43 @@
 package com.jenkov.container.script;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
 
  */
-public class ObjectPool <T>{
+public class ObjectPool<T> {
 
-    protected List<T> free  = new ArrayList<T>();
-    protected List<T> taken = new ArrayList<T>();
+    protected final List<T> free = new ArrayList<>();
+    protected final List<T> taken = new ArrayList<>();
 
     protected int tokensTaken = 0;
-    protected int maxSize     = 0;
+    protected int maxSize = 0;
 
 
-
-    public T take(){
+    public T take() {
         this.tokensTaken++;
         T token = null;
-        if(free.size() > 0) {
+        if (free.size() > 0) {
             token = free.remove(0);
         } else {
-           // token =
+            // token =
         }
         taken.add(token);
 
-        if(size() > maxSize){
+        if (size() > maxSize) {
             maxSize = size();
         }
 
         return token;
     }
 
-    public void freeAll(){
+    public void freeAll() {
         free.addAll(taken);
         taken.clear();
     }
 
-    public void correctIndexOfTakenTokens(int valueToSubstract){
+    public void correctIndexOfTakenTokens(int valueToSubstract) {
 //        for(T token : this.taken){
 //            if(token.length > 0){
 //                token.from -= valueToSubstract;
@@ -50,5 +49,5 @@ public class ObjectPool <T>{
         return free.size() + taken.size();
     }
 
-    
+
 }

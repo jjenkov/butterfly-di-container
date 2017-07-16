@@ -1,16 +1,16 @@
 package com.jenkov.container.script;
 
-import junit.framework.TestCase;
-import com.jenkov.container.IContainer;
 import com.jenkov.container.Container;
+import com.jenkov.container.IContainer;
 import com.jenkov.container.TestProduct;
+import junit.framework.TestCase;
 
 /**
 
  */
 public class FactoryFactoryTest extends TestCase {
 
-    public void testContainerInjection(){
+    public void testContainerInjection() {
         IContainer container = new Container();
         ScriptFactoryBuilder builder = new ScriptFactoryBuilder(container);
 
@@ -20,7 +20,7 @@ public class FactoryFactoryTest extends TestCase {
         assertSame(container, bean2.container);
 
         builder.addFactory("bean3 = com.jenkov.container.TestProduct(); " +
-                           "  config{ $bean3.container = #bean; }");
+                "  config{ $bean3.container = #bean; }");
         TestProduct bean3 = (TestProduct) container.instance("bean3");
         assertSame(container, bean3.container);
 
@@ -39,7 +39,7 @@ public class FactoryFactoryTest extends TestCase {
 
     }
 
-    public void testFactoryInjection(){
+    public void testFactoryInjection() {
         IContainer container = new Container();
         ScriptFactoryBuilder builder = new ScriptFactoryBuilder(container);
 
@@ -51,7 +51,7 @@ public class FactoryFactoryTest extends TestCase {
         assertEquals("a factory product", bean2.factory.beanInstance());
 
         builder.addFactory("bean3 = com.jenkov.container.TestProduct(); " +
-                           "  config{ $bean3.factory = #bean; }");
+                "  config{ $bean3.factory = #bean; }");
         TestProduct bean3 = (TestProduct) container.instance("bean3");
         assertEquals("a factory product", bean3.factory.bean());
         assertEquals("a factory product", bean3.factory.instance());

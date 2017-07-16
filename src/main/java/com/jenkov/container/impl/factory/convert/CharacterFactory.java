@@ -19,6 +19,6 @@ public class CharacterFactory extends LocalFactoryBase implements ILocalFactory 
     }
 
     public Object instance(Object[] parameters, Object[] localProducts) {
-        return new Character(this.sourceFactory.instance(parameters, localProducts).toString().charAt(0));
+        return this.sourceFactory.instance(parameters, localProducts).toString().charAt(0);
     }
 }
